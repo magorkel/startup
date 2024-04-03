@@ -22,4 +22,6 @@
   - exit gets you out of your web service
 
 ## HTML:
--to change color you can list basic colors and don't need the number
+- to change color you can list basic colors and don't need the number
+- when making an app, you need to think about ALL of the pages you are going to make. Every page needs an HTML. An edit profile, a register verses login, any button that links to more information.
+- bottom menues can be created with a <style> tab and then referenced in the <body>
