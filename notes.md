@@ -20,3 +20,6 @@
     - :wq is save and exit
   - sudo service caddy restart: saves changes
   - exit gets you out of your web service
+
+## HTML:
+-to change color you can list basic colors and don't need the number
