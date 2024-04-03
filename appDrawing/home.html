@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <style>
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-around; /* Distributes space between menu items */
+        }
+        
+        .bottom-menu button {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s ease-in-out;
+        }
+        
+        .bottom-menu button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Welcome, <span id="parentName">Jane Doe</span>!</h1>
+    <button onclick="window.location.href='profile-information.html';">Profile</button>
+    <div>
+        <h2>Child Information</h2>
+        <p><strong>Child's Name:</strong> <span id="childName">Johnny Doe</span></p>
+        <p><strong>Class Enrolled:</strong> <span id="childClass">8th Grade</span></p>
+        <p><strong>Class Schedule:</strong> <span id="classSchedule">Monday, Wednesday, Friday - 10:00 AM to 11:00 AM</span></p>
+    </div>
+    <div class="bottom-menu">
+        <button onclick="window.location.href='home.html';">Home</button>
+        <button onclick="window.location.href='admin-dashboard.html';">Admin</button>
+        <button onclick="window.location.href='notices.html';">Notices</button>
+        <button onclick="window.location.href='splits.html';">Splits</button>
+    </div>
+</body>
+</html>

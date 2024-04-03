@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notices</title>
+    <style>
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-around;
+        }
+        
+        .bottom-menu button {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s ease-in-out;
+        }
+        
+        .bottom-menu button:hover {
+            background-color: #0056b3;
+        }
+
+        /* Ensure content does not overlap with the bottom menu */
+        body {
+            padding-bottom: 60px; /* Adjust based on the height of your bottom menu */
+        }
+    </style>
+</head>
+<body>
+    <h1>Notices</h1>
+    
+    <div class="bottom-menu">
+        <button onclick="window.location.href='home.html';">Home</button>
+        <button onclick="window.location.href='admin-dashboard.html';">Admin</button>
+        <button onclick="window.location.href='notices.html';">Notices</button>
+        <button onclick="window.location.href='splits.html';">Splits</button>
+    </div>
+</body>
+</html>

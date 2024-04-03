@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Class List</title>
+</head>
+<body>
+    <h1>Admin Dashboard</h1>
+    <h2>Class Lists</h2>
+    <section>When the backend is working this page would take the place of the home page for the admin</section>
+
+    <section>
+        <h3>Class 1: 8th Grade Science</h3>
+        <ul>
+            <!-- All students link to the same student-info page for this demo -->
+            <li><a href="student-info.html">Jane Doe</a></li>
+            <li><a href="student-info.html">John Smith</a></li>
+            <li><a href="student-info.html">Emily Johnson</a></li>
+        </ul>
+    </section>
+
+    <section>
+        <h3>Class 2: 7th Grade Mathematics</h3>
+        <ul>
+            <!-- All students link to the same student-info page for this demo -->
+            <li><a href="student-info.html">Michael Brown</a></li>
+            <li><a href="student-info.html">Sarah Miller</a></li>
+            <li><a href="student-info.html">James Wilson</a></li>
+        </ul>
+    </section>
+
+    <!-- Bottom menu for navigation -->
+    <div class="bottom-menu">
+        <button onclick="window.location.href='home.html';">Home</button>
+        <button onclick="window.location.href='admin-dashboard.html';">Admin</button>
+        <button onclick="window.location.href='notices.html';">Notices</button>
+        <button onclick="window.location.href='splits.html';">Splits</button>
+    </div>
+
+    <style>
+        .bottom-menu {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: #f8f9fa;
+            padding: 10px 0;
+            box-shadow: 0 -2px 5px rgba(0,0,0,0.2);
+            display: flex;
+            justify-content: space-around;
+        }
+
+        .bottom-menu button {
+            flex-grow: 1;
+            padding: 10px;
+            border: none;
+            background-color: #007bff;
+            color: white;
+            transition: background-color 0.2s ease-in-out;
+        }
+
+        .bottom-menu button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</body>
+</html>
