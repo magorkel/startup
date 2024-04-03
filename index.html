@@ -6,6 +6,13 @@
     <title>Login Page</title>
 </head>
 <body>
+    <style>
+          .github-link {
+            display: block; /* Ensure it takes up the full width if necessary */
+            text-align: center; /* Center the link */
+            margin-bottom: 10px; /* Space above the bottom menu */
+        }
+    </style>
     <div>
         <h2>Login</h2>
         <form action="#" onsubmit="event.preventDefault(); window.location.href='home.html';">
@@ -21,6 +28,10 @@
         </form>
         <p>If you are a new user, please register first.</p>
         <button onclick="window.location.href='registration.html';">Register</button>
+    </div>
+
+    <div>
+        <a href="https://github.com/magorkel/startup" class=""github-link>Visit My GitHub Repository</a>
     </div>
 </body>
 </html>
