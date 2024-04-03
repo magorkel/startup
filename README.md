@@ -30,4 +30,14 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 **React** - I'm going to use React so that the application can be used on both android and IOS. 
 
 ## Mock Up of Key Pages in my App
-
+![Page 1](appDrawing/Page1.png)
+![Page 2](appDrawing/Page2.png)
+![Page 3](appDrawing/Page3.png)
+![Page 4](appDrawing/Page4.png)
+![Page 5](appDrawing/Page5.png)
+![Page 6](appDrawing/Page6.png)
+![Page 7](appDrawing/Page7.png)
+![Page 8](appDrawing/Page8.png)
+![Page 9](appDrawing/Page9.png)
+![Page 10](appDrawing/Page10.png)
+![Page 11](appDrawing/Page11.png)
