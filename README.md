@@ -10,14 +10,21 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 4. There will be more but for this class, I'm just going to focus on those 3.
 
 ## Technology Use:
-HTML - I will start with 2 HTML pages: one for log in and one for the parents to view the class their child is enrolled in, the 3rd will be the page I see containing all the students info and their classes.
-CSS - I want this app to look good on all phone and tablet sizes. I don't see this app ever being used for a bigger screen. But I want it to look clean and professional and very easy for moms to navigate and use. 
-JavaScript - Log in and register buttons work properly and the info page is able to be updated by either parents or me. When changes are made they will call the backend and send changes to the database.
-Web service - Backend service for:
+**HTML** - I will start with 2 HTML pages: one for log in and one for the parents to view the class their child is enrolled in, the 3rd will be the page I see containing all the students info and their classes.
+
+**CSS** - I want this app to look good on all phone and tablet sizes. I don't see this app ever being used for a bigger screen. But I want it to look clean and professional and very easy for moms to navigate and use. 
+
+**JavaScript** - Log in and register buttons work properly and the info page is able to be updated by either parents or me. When changes are made they will call the backend and send changes to the database.
+
+**Web service** - Backend service for:
+
     * adding a user
     * retrieving user info
     * retrieving lists of classes
     * updating a users info
-DB/Login - Stores users and their info in the database. Cannot log in unless they have already registered. 
-WebSocket - When a new user registers my list of students is updated. If I make changes to a classes schedule, it updates the parents account. 
-React - I'm going to use React so that the application can be used on both android and IOS. 
+    
+**DB/Login** - Stores users and their info in the database. Cannot log in unless they have already registered. 
+
+**WebSocket** - When a new user registers my list of students is updated. If I make changes to a classes schedule, it updates the parents account. 
+
+**React** - I'm going to use React so that the application can be used on both android and IOS. 
