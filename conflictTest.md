@@ -1,3 +1,3 @@
 Hello World
 adding something new
-making another change in GitHub
+making another in GitHub
