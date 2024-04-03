@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Notices</title>
+    <title>Student Information</title>
     <style>
         .bottom-menu {
             position: fixed;
@@ -16,7 +16,7 @@
             display: flex;
             justify-content: space-around;
         }
-        
+
         .bottom-menu button {
             flex-grow: 1;
             padding: 10px;
@@ -25,20 +25,24 @@
             color: white;
             transition: background-color 0.2s ease-in-out;
         }
-        
+
         .bottom-menu button:hover {
             background-color: #0056b3;
-        }
-
-        /* Ensure content does not overlap with the bottom menu */
-        body {
-            padding-bottom: 60px; /* Adjust based on the height of your bottom menu */
         }
     </style>
 </head>
 <body>
-    <h1>Notices</h1>
-    
+    <h1>Student Information</h1>
+    <div>
+        <h2>Name of Student: Jane Doe</h2>
+        <p><strong>Name of Parent:</strong> John Doe</p>
+        <p><strong>Parent Phone Number:</strong> 555-1234</p>
+        <p><strong>Parent Email:</strong> john.doe@example.com</p>
+        <p><strong>Class:</strong> 8th Grade Science</p>
+        <p><strong>Date and Time of Class:</strong> Mondays and Wednesdays, 10:00 AM - 11:30 AM</p>
+    </div>
+
+    <!-- Bottom menu for navigation -->
     <div class="bottom-menu">
         <button onclick="window.location.href='home.html';">Home</button>
         <button onclick="window.location.href='admin-dashboard.html';">Admin</button>
