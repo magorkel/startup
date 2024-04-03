@@ -2,8 +2,8 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <meta viewport="width=device-width, initial-scale=1.0">
-    <title>Profile Information</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
     <style>
         .bottom-menu {
             position: fixed;
@@ -32,19 +32,14 @@
     </style>
 </head>
 <body>
-    <h2>Profile Information</h2>
+    <h1>Welcome, <span id="parentName">Jane Doe</span>!</h1>
+    <button onclick="window.location.href='profile-information.html';">Profile</button>
     <div>
-        <p><strong>Parent Name:</strong> John Doe</p>
-        <p><strong>Child Name:</strong> Jane Doe</p>
-        <p><strong>Child Birthdate:</strong> 01/01/2010</p>
-        <p><strong>Child's Age:</strong> 14</p>
-        <p><strong>Child's Class:</strong> 8th Grade</p>
-        <p><strong>Class Times:</strong> Monday, Wednesday, Friday - 10:00 AM to 11:00 AM</p>
-        <p><strong>Parent Phone Number:</strong> 555-1234</p>
-        <p><strong>Parent Email:</strong> john.doe@example.com</p>
-        <p><strong>Username:</strong> johndoe</p>
+        <h2>Child Information</h2>
+        <p><strong>Child's Name:</strong> <span id="childName">Johnny Doe</span></p>
+        <p><strong>Class Enrolled:</strong> <span id="childClass">8th Grade</span></p>
+        <p><strong>Class Schedule:</strong> <span id="classSchedule">Monday, Wednesday, Friday - 10:00 AM to 11:00 AM</span></p>
     </div>
-    <button onclick="window.location.href='edit-information.html';">Edit Information</button>
     <div class="bottom-menu">
         <button onclick="window.location.href='home.html';">Home</button>
         <button onclick="window.location.href='notices.html';">Notices</button>
