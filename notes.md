@@ -22,4 +22,7 @@
   - exit gets you out of your web service
 
 ## HTML:
--to change color you can list basic colors and don't need the number
+- to change color you can list basic colors and don't need the number
+
+## CSS:
+- npm install bootstrap@5.2.3 - this will install bootstrap later in my app
