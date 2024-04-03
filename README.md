@@ -19,11 +19,10 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 **JavaScript** - Log in and register buttons work properly and the info page is able to be updated by either parents or me. When changes are made they will call the backend and send changes to the database.
 
 **Web service** - Backend service for:
-
-    * adding a user
-    * retrieving user info
-    * retrieving lists of classes
-    * updating a users info
+   - adding a user
+   - retrieving user info
+   - retrieving lists of classes
+   - updating a users info
     
 **DB/Login** - Stores users and their info in the database. Cannot log in unless they have already registered. 
 
