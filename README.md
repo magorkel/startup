@@ -5,9 +5,11 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 
 ## Key Features
 1. Log in and specific accounts for each parent.
-2. On my end a clear list of classes, students and parents contact info.
-3. On the parent end they will be able to see the class their student is enrolled in and what time the class is. (This will eventually turn into a calendar)
-4. There will be more but for this class, I'm just going to focus on those 3.
+2. Secure log in over HTTPS
+3. On my end a clear list of classes, students and parents contact info.
+4. On the parent end they will be able to see the class their student is enrolled in and what time the class is. (This will eventually turn into a calendar)
+5. Both parents and myself will be able to update and edit their information.
+6. There will be more but for this class I'm just going to focus on those 3.
 
 ## Technology Use:
 **HTML** - I will start with 2 HTML pages: one for log in and one for the parents to view the class their child is enrolled in, the 3rd will be the page I see containing all the students info and their classes.
