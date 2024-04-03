@@ -28,3 +28,6 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 **WebSocket** - When a new user registers my list of students is updated. If I make changes to a classes schedule, it updates the parents account. 
 
 **React** - I'm going to use React so that the application can be used on both android and IOS. 
+
+## Mock Up of Key Pages in my App
+
