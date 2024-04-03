@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Registration Page</title>
-    <h1>Harley Christensen</h1>
+    <link rel="stylesheet" href="registration.css">
 </head>
 <body>
-    <stle>
-        .github-link {
-            display: block; /* Ensure it takes up the full width if necessary */
-            text-align: center; /* Center the link */
-            margin-bottom: 10px; /* Space above the bottom menu */
-        }
-    </stle>
-    <div>
+    <div class="name-div">
+        <p class="name-top-right">Harley Christensen</p>
+    </div>
+
+    <div class="registration-div">
         <h2>Register</h2>
         <form action="#" onsubmit="event.preventDefault(); window.location.href='home.html';">
             <div>
@@ -45,11 +42,11 @@
                 <label for="new_password">Password:</label><br>
                 <input type="password" id="new_password" name="new_password" required><br>
             </div>
-            <button type="submit">Register</button>
+            <button class="button" type="submit">Register</button>
         </form>
     </div>
-    <div>
-        <a href="https://github.com/magorkel/startup" class=""github-link>Visit My GitHub Repository</a>
+    <div class="github-div">
+        <a href="https://github.com/magorkel/startup" class="github-link">Visit My GitHub Repository</a>
     </div>
 </body>
 </html>

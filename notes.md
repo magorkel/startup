@@ -26,3 +26,4 @@
 
 ## CSS:
 - npm install bootstrap@5.2.3 - this will install bootstrap later in my app - get latest version link
+- placing elements inside their own div and giving them a class="" means you can give it its own styling in the css file.
