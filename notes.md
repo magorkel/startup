@@ -25,4 +25,4 @@
 - to change color you can list basic colors and don't need the number
 
 ## CSS:
-- npm install bootstrap@5.2.3 - this will install bootstrap later in my app
+- npm install bootstrap@5.2.3 - this will install bootstrap later in my app - get latest version link

@@ -4,17 +4,14 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login Page</title>
-    <h1>Harley Christensen</h1>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
-    <style>
-          .github-link {
-            display: block; /* Ensure it takes up the full width if necessary */
-            text-align: center; /* Center the link */
-            margin-bottom: 10px; /* Space above the bottom menu */
-        }
-    </style>
-    <div>
+    <div class="name-div">
+        <p class="name-top-right">Harley Christensen</p>
+    </div>
+    
+    <div class="login-div">
         <h2>Login</h2>
         <form action="#" onsubmit="event.preventDefault(); window.location.href='home.html';">
             <div>
@@ -25,13 +22,15 @@
                 <label for="password">Password:</label><br>
                 <input type="password" id="password" name="password" required><br>
             </div>
-            <button type="submit">Log In</button>
+            <button class="button" type="submit">Log In</button>
         </form>
-        <p>If you are a new user, please register first.</p>
-        <button onclick="window.location.href='registration.html';">Register</button>
+        <div class="register-div">
+            <p class="register-first">If you are a new user, please register first.</p>
+            <button class="button" onclick="window.location.href='registration.html';">Register</button>
+        </div>
     </div>
 
-    <div>
+    <div class="github-div">
         <a href="https://github.com/magorkel/startup" class=""github-link>Visit My GitHub Repository</a>
     </div>
 </body>

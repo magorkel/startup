@@ -1,0 +1,108 @@
+body, html {
+    height: 100%;
+    margin: 0 auto;
+    display: block;
+    /* flex-direction: column;
+    justify-content: center;
+    align-items: center; */
+    font-family: Arial, sans-serif;
+    background-color: #f0f0f0;
+    position: relative; /* Added to position child elements absolutely relative to the full page */
+}
+
+/* .name-top-right {
+    position: absolute;
+    top: 0;
+    right: 10px;
+    margin: 20px;
+} */
+
+div.name-div {
+    display: flex;
+    justify-content: flex-start;
+    margin: 20px;
+}
+
+div.login-div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+div.register-div {
+    margin-top: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 500px;
+}
+
+.register-first {
+    margin-bottom: 0%;
+    font-size: small;
+}
+
+.github-link {
+    position: absolute; /* Position the GitHub link at the bottom */
+    bottom: 10px; /* Distance from the bottom */
+    left: 50%; /* Center horizontally */
+    transform: translateX(-50%); /* Adjust the exact centering */
+    text-align: center;
+    width: auto; /* Let the width grow with content */
+}
+
+div.github-div {
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: 10px 0;
+}
+
+form {
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    width: 500px;
+    max-width: 500px;
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+
+}
+
+div {
+    text-align: center;
+}
+
+input[type="text"],
+input[type="password"] {
+    width: 100%;
+    max-width: 100%;
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    box-sizing: border-box;
+}
+
+button {
+    width: 100%; 
+    padding: 10px;
+    margin-top: 5px;
+    margin-bottom: 20px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    box-sizing: border-box;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
