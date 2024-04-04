@@ -128,6 +128,7 @@ p {
   bottom: 0;
   width: 100%;
   max-width: 100%;
+  z-index: 5; /* Lower z-index than typing area */
 }
 
 .github-link {

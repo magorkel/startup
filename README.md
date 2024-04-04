@@ -128,5 +128,8 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
   - and I even got cute little logos for the main buttons at the bottom in the footer
 
 - WebSockets
+
   - As I only got my grade back for the HTML part of this assignment today, I have not had a chance to work on adding the WebSocket element
   - I will start on this tomorrow (it's 11:30 pm)
+
+  - This has now been added in the form of a chat page. It is all prettiefied and looks wonderful (in my opinion)

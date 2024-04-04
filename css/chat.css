@@ -2,6 +2,7 @@
     display: flex;
     flex-direction: column;
     margin-top: 20px;
+    padding-bottom: 70px; /
   }
   
   .message {
@@ -23,11 +24,57 @@
     align-self: flex-start;
     background-color: #ffc0cb; /* Light pink for the user's messages */
   }
+
+  .typing-area {
+    position: fixed;
+    bottom: 100px; /* Height of your footer */
+    left: 0;
+    right: 0;
+    padding: 10px;
+    background: white;
+    display: flex;
+    align-items: center;
+    border-top: 1px solid #ccc; /* Adds a subtle top border to the typing area */
+    z-index: 10; /* Ensure it's above other elements but below modals if any */
+  }
+  
+  .input-message {
+    flex-grow: 1;
+    border-radius: 20px;
+    border: 1px solid #ccc;
+    padding: 10px 20px;
+    margin-right: 10px; /* Space between input and send button */
+  }
+  
+  .send-button {
+    background-color: #ffc0cb; /* Adjust color to match your theme */
+    border: none;
+    border-radius: 50%;
+    padding: 10px;
+    cursor: pointer;
+  }
+  
+  .bi-send {
+    color: white;
+  }
+  
   
   /* Responsive design for smaller screens */
   @media (max-width: 768px) {
     .message {
       max-width: 75%;
+    }
+
+    .typing-area {
+      padding: 5px;
+    }
+  
+    .input-message {
+      padding: 5px 10px;
+    }
+  
+    .send-button {
+      padding: 5px;
     }
   }
   
