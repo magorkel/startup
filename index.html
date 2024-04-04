@@ -1,37 +1,66 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Login Page</title>
-    <link rel="stylesheet" href="index.css">
-</head>
-<body>
-    <div class="name-div">
-        <p class="name-top-right">Harley Christensen</p>
-    </div>
-    
+    <link rel="stylesheet" href="css/main.css" />
+    <link rel="stylesheet" href="css/index.css" />
+  </head>
+  <body>
     <div class="login-div">
-        <h2>Login</h2>
-        <form action="#" onsubmit="event.preventDefault(); window.location.href='home.html';">
-            <div>
-                <label for="username">Username:</label><br>
-                <input type="text" id="username" name="username" required><br>
-            </div>
-            <div>
-                <label for="password">Password:</label><br>
-                <input type="password" id="password" name="password" required><br>
-            </div>
-            <button class="button" type="submit">Log In</button>
+      <div class="logo-div">
+        <div>
+          <img
+            src="images/logo-balletoncobblestoneroad (1).jpg"
+            alt="Logo"
+            class="header-logo"
+            width="200"
+          />
+        </div>
+        <div class="my-name">by Harley Christensen</div>
+      </div>
+      <br />
+      <br />
+      <div class="form-div">
+        <form
+          action="#"
+          onsubmit="event.preventDefault(); window.location.href='home.html';"
+        >
+          <h2>Login</h2>
+          <div>
+            <input
+              type="text"
+              id="username"
+              name="username"
+              placeholder="Username"
+            /><br />
+          </div>
+          <div>
+            <input
+              type="password"
+              id="password"
+              name="password"
+              placeholder="Password"
+            /><br />
+          </div>
+          <button class="button" type="submit">Log In</button>
         </form>
         <div class="register-div">
-            <p class="register-first">If you are a new user, please register first.</p>
-            <button class="button" onclick="window.location.href='registration.html';">Register</button>
+          <button
+            class="button"
+            onclick="window.location.href='registration.html';"
+          >
+            Register
+          </button>
         </div>
+      </div>
     </div>
 
     <div class="github-div">
-        <a href="https://github.com/magorkel/startup" class=""github-link>Visit My GitHub Repository</a>
+      <a href="https://github.com/magorkel/startup" class="" github-link
+        >Visit My GitHub Repository</a
+      >
     </div>
-</body>
+  </body>
 </html>
