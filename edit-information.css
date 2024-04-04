@@ -1,0 +1,32 @@
+.main-content {
+    padding: 20px;
+  }
+  
+.edit-info {
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    background-color: #fff;
+    padding: 20px;
+    border-radius: 8px;
+    margin-top: 20px; /* Add margin for spacing */
+  }
+
+  .edit-info button {
+    margin-top: 10px;
+    padding: 10px 20px; /* Button size */
+    font-size: 14px; /* Text size */
+    color: white; /* Text color */
+    background-color: #3a3a3a; /* Button color */
+    border: none; /* Remove default border */
+    border-radius: 5px; /* Rounded corners */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Shadow for depth */
+    transition: background-color 0.3s, transform 0.3s, box-shadow 0.3s; /* Smooth transitions for interactions */
+    cursor: pointer; /* Pointer cursor on hover */
+  }
+
+  .edit-info button:hover {
+    cursor: pointer;
+    background-color: #c63ea2;
+    transform: scale(1.05);
+    transition: ease-in-out;
+    transition-duration: 0.1s;
+  }

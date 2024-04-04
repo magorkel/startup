@@ -4,6 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <link rel="stylesheet" href="main.css" />
+    <link rel="stylesheet" href="edit-information.css" />
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.7.2/font/bootstrap-icons.css"
@@ -32,106 +33,84 @@
       </div>
     </header>
     <div class="container">
-      <h2>Edit Profile Information</h2>
-      <form
-        action="#"
-        onsubmit="event.preventDefault(); window.location.href='profile-information.html';"
-      >
-        <!-- Placeholder values are used here. In practice, these should be the user's current information -->
-        <label for="parent_name">Parent Name:</label><br />
-        <input
-          type="text"
-          id="parent_name"
-          name="parent_name"
-          value="Jane Doe"
-          required
-        /><br />
+      <main class="main-content">
+        <div class="edit-info">
+          <h2>Edit Profile Information</h2>
+          <form
+            action="#"
+            onsubmit="event.preventDefault(); window.location.href='profile-information.html';"
+          >
+            <!-- Placeholder values are used here. In practice, these should be the user's current information -->
+            <label for="parent_name">Parent Name:</label><br />
+            <input
+              type="text"
+              id="parent_name"
+              name="parent_name"
+              value="Jane Doe"
+              required
+            /><br />
 
-        <label for="child_name">Child Name:</label><br />
-        <input
-          type="text"
-          id="child_name"
-          name="child_name"
-          value="Johnny Doe"
-          required
-        /><br />
+            <label for="child_name">Child Name:</label><br />
+            <input
+              type="text"
+              id="child_name"
+              name="child_name"
+              value="Johnny Doe"
+              required
+            /><br />
 
-        <label for="child_birthdate">Child Birthdate:</label><br />
-        <input
-          type="date"
-          id="child_birthdate"
-          name="child_birthdate"
-          value="2010-01-01"
-          required
-        /><br />
+            <label for="child_birthdate">Child Birthdate:</label><br />
+            <input
+              type="date"
+              id="child_birthdate"
+              name="child_birthdate"
+              value="2010-01-01"
+              required
+            /><br />
 
-        <label for="child_age">Child's Age:</label><br />
-        <input
-          type="number"
-          id="child_age"
-          name="child_age"
-          value="14"
-          required
-        /><br />
+            <label for="child_class">Child's Class:</label><br />
+            <input
+              type="text"
+              id="child_class"
+              name="child_class"
+              value="8th Grade"
+              required
+            /><br />
 
-        <label for="child_class">Child's Class:</label><br />
-        <input
-          type="text"
-          id="child_class"
-          name="child_class"
-          value="8th Grade"
-          required
-        /><br />
+            <label for="parent_phone">Parent Phone Number:</label><br />
+            <input
+              type="tel"
+              id="parent_phone"
+              name="parent_phone"
+              value="555-123-4567"
+              required
+            /><br />
 
-        <label for="class_times">Class Times:</label><br />
-        <input
-          type="text"
-          id="class_times"
-          name="class_times"
-          value="Monday, Wednesday, Friday - 10:00 AM to 11:00 AM"
-          required
-        /><br />
+            <label for="parent_email">Parent Email:</label><br />
+            <input
+              type="email"
+              id="parent_email"
+              name="parent_email"
+              value="jane.doe@example.com"
+              required
+            /><br />
 
-        <label for="parent_phone">Parent Phone Number:</label><br />
-        <input
-          type="tel"
-          id="parent_phone"
-          name="parent_phone"
-          value="555-123-4567"
-          required
-        /><br />
+            <label for="username">Username:</label><br />
+            <input
+              type="text"
+              id="username"
+              name="username"
+              value="janeDoeUser"
+              readonly
+            /><br />
 
-        <label for="parent_email">Parent Email:</label><br />
-        <input
-          type="email"
-          id="parent_email"
-          name="parent_email"
-          value="jane.doe@example.com"
-          required
-        /><br />
+            <label for="password">New Password (if changing):</label><br />
+            <input type="password" id="password" name="password" /><br />
 
-        <label for="username">Username:</label><br />
-        <input
-          type="text"
-          id="username"
-          name="username"
-          value="janeDoeUser"
-          readonly
-        /><br />
-
-        <label for="password">New Password (if changing):</label><br />
-        <input type="password" id="password" name="password" /><br />
-
-        <label for="email">Email (if different from Parent Email):</label><br />
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value="jane.doe@example.com"
-        /><br />
-
-        <button type="submit">Update Information</button>
-      </form>
+            <button type="submit">Update Information</button>
+          </form>
+        </div>
+      </main>
     </div>
     <footer class="footer">
       <div class="bottom-menu">
