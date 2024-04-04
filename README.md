@@ -98,3 +98,27 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 - WebSockets:
   - I was obviously very confused about the difference between API calls and WebSockets and I currently do not have an application for WebSockets in my app
   - So I will work on adding a chat of some kind (which I was going to add at some future stage) between me and the parents
+
+## Startup CSS
+
+- In starting the CSS, I realized I left out quite a few things (such as a log out button) and that my HTML was not structured the best to help me access the elements that I wanted. I ended up needing to add a bunch of class descriptions and rearagning most of my divs.
+- But I was able to put the styling that was consistent accross the different pages into their own css file instead of having to copy and paste.
+- Header, footer, and main content body
+  - The header and footer I was able to style in one css file and I was able to add some fun functionality (I think) and my logo
+- Navigation elements
+  - all the links to different pages look quite professional (or at least as close to my vasa app as I could get)
+  - none of them have funny underlines or weird colors
+- Responsive to window resizing
+  - this took me the longest to do, but I got the headers and the footers to work out first, then was able to work on the main body parts for each page
+- Application elements
+- Application text content
+  - I got my husband to help me with both of these. I was able to have good spacing around all my elements and was even able to use google fonts to make everything consistent
+- Application images
+
+  - I was able to add my little avatar profile image and make it clickable
+  - I also added my logo to the headers
+  - and I even got cute little logos for the main buttons at the bottom in the footer
+
+- WebSockets
+  - As I only got my grade back for the HTML part of this assignment today, I have not had a chance to work on adding the WebSocket element
+  - I will start on this tomorrow (it's 11:30 pm)
