@@ -52,6 +52,7 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 
 - I ended up having to make more HTML pages than I thought I would. But I learned I really need to think things through and that everything (as in a clickable button) that will go to a new page of information needs an HTML.
 - HTML's needed:
+
   - index.html (this is the login page)
   - registration.html
   - home.html
@@ -61,3 +62,39 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
   - student-info.html
   - notices.html
   - splits.html (these last two were just so I could figure out how to make a menue at the bottom work. I will not be adding anything else to these pages for this project, but I will in the future)
+
+- Links:
+
+  - I have linked all the appropriate pages to their buttons
+  - index.html
+    - login -> home.html
+    - register -> registration.html
+  - registration.html
+    - register -> home.html
+  - home.html
+    - profile -> profile-information.html
+  - profile-information.html
+    - edit profile -> edit-information.html
+  - edit-information.html
+    - update information -> profile-information.html
+  - admin-dashboard.html
+    - any students name -> student-info.html
+  - at the bottom of home.html, profile-information.html, admin-dashboard.html, student-info.html, notices.html, splits.html
+    - home -> home.html
+    - admin -> admin-dashboard.html
+    - notices -> notices.html
+    - splits -> splits.html
+
+- Images I plan to add in:
+
+  - switch out the profile button for an avatar of the user and make it clickable
+  - I will add my company logo to the top of all the pages where my name is locatd
+
+- 3rd party API calls:
+
+  - this will be used when a user logs in or out, when a new user registers, and when pulling data to view on the home screen
+  - this is (at the moment) what my app is all about, just adding to a database and viewing the information stored there
+
+- WebSockets:
+  - I was obviously very confused about the difference between API calls and WebSockets and I currently do not have an application for WebSockets in my app
+  - So I will work on adding a chat of some kind (which I was going to add at some future stage) between me and the parents
