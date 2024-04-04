@@ -1,0 +1,52 @@
+/* Use Google Fonts for better typography */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+.main-content {
+  padding: 20px;
+}
+
+.notices-info {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px; /* Add margin for spacing */
+}
+
+.quote-container {
+    background-color: #ffe0e9; /* Light pink background for the quote container */
+  border-left: 5px solid #c63ea2; /* A pink left border for a bit of style */
+  padding: 20px;
+  margin-top: 20px; /* Add some space from the top */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Slight shadow for depth */
+  border-radius: 15px; /* Rounded corners for the quote box */
+}
+  
+.ballet-quote {
+    font-style: italic; /* Italicize the quote */
+    color: #333; /* Dark text for readability */
+    font-size: 20px; /* Larger font size for prominence */
+    line-height: 1.5; /* Space out the lines a bit */
+    text-align: center; /* Center the quote */
+    margin: 0; /* Remove default paragraph margin */
+}
+  
+@media (max-width: 768px) {
+    .quote-container {
+      padding: 10px; /* Smaller padding on smaller screens */
+      margin-top: 10px; /* Less space from the top on smaller screens */
+      border-radius: 10px; /* Slightly smaller border-radius on smaller screens */
+    }
+  
+    .ballet-quote {
+      font-size: 18px; /* Slightly smaller font size on smaller screens */
+    }
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .notices-info {
+    padding: 10px;
+  }
+}

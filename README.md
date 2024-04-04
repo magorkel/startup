@@ -80,24 +80,32 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
   - admin-dashboard.html
     - any students name -> student-info.html
   - at the bottom of home.html, profile-information.html, admin-dashboard.html, student-info.html, notices.html, splits.html
+
     - home -> home.html
     - admin -> admin-dashboard.html
     - notices -> notices.html
     - splits -> splits.html
+
+  - I have also added the chat. It will appear as one of the bottom menue buttons and can be accessed the same as all the others
 
 - Images I plan to add in:
 
   - switch out the profile button for an avatar of the user and make it clickable
   - I will add my company logo to the top of all the pages where my name is locatd
 
-- 3rd party API calls:
+- ~~3rd party API calls:~~ I got this wrong, this will just be my regular API calls to my own database:
 
   - this will be used when a user logs in or out, when a new user registers, and when pulling data to view on the home screen
   - this is (at the moment) what my app is all about, just adding to a database and viewing the information stored there
 
+  - **3rd party API** will be a ballet quote of the day found on the notices tab
+
 - WebSockets:
+
   - I was obviously very confused about the difference between API calls and WebSockets and I currently do not have an application for WebSockets in my app
   - So I will work on adding a chat of some kind (which I was going to add at some future stage) between me and the parents
+
+  - chat has been added and prettiefied! (It's my favorite page so far)
 
 ## Startup CSS
 
