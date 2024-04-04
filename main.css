@@ -84,24 +84,6 @@ html {
   margin: 0;
 }
 
-.welcome-text {
-  font-size: 1.2rem; /* Slightly larger than the name */
-  font-weight: normal; /* Less emphasis on the welcome text */
-  margin-top: 5px; /* Spacing between name and welcome text */
-}
-
-.main-content {
-  padding: 20px;
-}
-
-.child-info {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 8px;
-  margin-top: 20px; /* Add margin for spacing */
-}
-
 .github-repo-text {
     text-align: center;
 }
@@ -170,11 +152,6 @@ html {
     margin: 10px 0; /* Add vertical space */
   }
 
-  .main-content {
-    padding: 10px;
-  }
-
-  .child-info,
   .footer {
     padding: 10px;
   }
