@@ -1,0 +1,194 @@
+/* Use Google Fonts for better typography */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap');
+
+body,
+html {
+  margin: 0;
+  padding: 0;
+  font-family: "Open Sans", Arial, sans-serif;
+  background-color: #f0f0f0;
+  height: 100vh; /* Use viewport height to ensure full height */
+}
+
+h1, h2, h3, p, a {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  text-decoration: none;
+}
+
+h1 {
+  font-weight: 700;
+  color: #000000;
+  font-size: 40px;
+  margin-top: 10px;
+}
+
+h2 {
+  font-weight: 700;
+  color: #000000;
+  font-size: 34px;
+  margin-top: 10px;
+}
+
+p {
+  font-weight: 500;
+  color: #444444;
+}
+
+
+.container {
+  max-width: 1200px;
+  /* Remove flex-grow to allow the container to size according to content */
+  display: block;
+  margin: 0 auto;
+  /* Add some padding if you want some space around the container */
+  padding: 20px;
+}
+
+.header {
+  /* display: flex;
+    justify-content: center;
+    align-items: center; */
+  position: relative;
+  background: #e9ecef;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+  height: 100px;
+}
+
+.top-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background: #e9ecef;
+}
+
+.profile-photo-container {
+  float: right;
+  position: relative;
+  bottom: 113px;
+  text-align: center;
+}
+
+.profile-img {
+  left: 0;
+  width: 50px; /* Profile image size */
+  height: 50px; /* Profile image size */
+  border-radius: 50%; /* Makes the div circular */
+  background-size: cover;
+  background-position: center;
+  cursor: pointer;
+}
+
+.user-name {
+  margin-left: 0px;
+  font-size: x-small;
+}
+
+.logout-text {
+  font-size: 14px;
+}
+
+.logo-div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.header-logo {
+  max-width: 200px; /* Max width for the logo, adjust as needed */
+  max-height: 100px; /* Max height for the logo, adjust as needed */
+  /* If you want the logo to always stay in the center regardless of screen size: */
+}
+
+.my-name {
+  font-family: "Roboto", sans-serif;
+  font-style: normal;
+  font-size: 14px;
+  position: relative;
+  left: -16px;
+  top: -30px;
+}
+
+.name-top-right {
+  font-size: 1rem; /* Smaller font size */
+  margin: 0;
+}
+
+.github-repo-text {
+    text-align: center;
+}
+
+.footer {
+  background-color: #e9ecef; /* Light grey background for footer */
+  text-align: center;
+  padding: 20px 0;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  max-width: 100%;
+}
+
+.github-link {
+  color: #6d6d6d; /* Use Bootstrap primary color for links */
+  text-decoration: none;
+  font-size: 10px;
+
+}
+
+.bottom-menu {
+  display: flex;
+  position: static; /* Changed from fixed to static */
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding-top: 10px;
+  padding-bottom: 0;
+  justify-content: center; /* Distributes space between menu items */
+}
+
+.bi {
+  font-size: 18px;
+}
+
+.bottom-menu button {
+  padding: 10px 20px; /* More padding for a larger touch area */
+  border: none;
+  color: #3a3a3a;
+  font-weight: 600; /* Make text bold */
+  transition: background-color 0.2s ease-in-out;
+  background-color: transparent;
+}
+
+.bottom-menu button:hover {
+  background-color: transparent;
+  cursor: pointer;
+  color: #c63ea2;
+  transform: scale(1.05); /* Slight scale for interactive feedback */
+  transition: ease-in-out;
+  transition-duration: 0.1s;
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 768px) {
+  .header {
+    flex-direction: column;
+    text-align: center;
+  }
+
+  .logo-div,
+  .profile-img,
+  .user-name {
+    position: static;
+    margin: 10px 0; /* Add vertical space */
+  }
+
+  .footer {
+    padding: 10px;
+  }
+
+  .name-top-right {
+    font-size: 1.2rem;
+  }
+}

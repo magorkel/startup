@@ -22,14 +22,4 @@
   - exit gets you out of your web service
 
 ## HTML:
-- to change color you can list basic colors and don't need the number
-
-## CSS:
-- npm install bootstrap@5.2.3 - this will install bootstrap later in my app - get latest version link
-- placing elements inside their own div and giving them a class="" means you can give it its own styling in the css file.
-- div.login-div {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-  } - this is so you can get a centered box of information on the page
+-to change color you can list basic colors and don't need the number
