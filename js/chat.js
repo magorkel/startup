@@ -3,8 +3,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const inputMessage = document.querySelector('.input-message');
     const chatContainer = document.querySelector('.chat-container');
     const userInfo = JSON.parse(localStorage.getItem('validUser'));
-    document.querySelector('.user-name').textContent = userInfo.parentName || 'No name provided';
     
+
     sendButton.addEventListener('click', () => {
       const messageText = inputMessage.value.trim();
   
@@ -30,5 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
         sendButton.click();
       }
     });
+
+    document.querySelector('.user-name').textContent = userInfo.parentName || 'No name provided';
   });
   

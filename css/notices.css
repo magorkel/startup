@@ -30,6 +30,17 @@
     text-align: center; /* Center the quote */
     margin: 0; /* Remove default paragraph margin */
 }
+
+.quote-author {
+  display: block;
+  text-align: center;
+  margin-left: 15%; /* Adjust this value as needed to nudge the author's name to the right */
+  width: 90%; /* Make this slightly less than the width of the quote for correct alignment */
+  font-style: italic;
+  color: #333;
+}
+
+
   
 @media (max-width: 768px) {
     .quote-container {
