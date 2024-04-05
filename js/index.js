@@ -27,11 +27,14 @@ document.addEventListener('DOMContentLoaded', () => {
 const validUser = {
     parentName: 'John Doe', 
     childName: 'Johnny Doe',
-    childBirthdate: '2010-01-01',
+    childBirthdate: '2020-01-01',
     parentPhone: '+1234567890',
     parentEmail: 'john.doe@example.com',
     username: 'Jane',
-    password: '123'
+    password: '123',
+    childAge: '4',
+    className: 'Creative Ballet',
+    classSchedule: 'Mondays and Wednesdays 3:30-4:00 pm'
     };
     
     // Store user information in localStorage

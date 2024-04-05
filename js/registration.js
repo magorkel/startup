@@ -23,15 +23,9 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        // Now, delegate the processing and storage of user details to auth.js
-        // Make sure saveUserDetails is accessible from this scope
-
-        //saveUserDetails(userDetails);
-        //window.location.href = 'home.html'; // Redirect after successful registration
-
         if (typeof window.saveUserDetails === "function") {
             window.saveUserDetails(userDetails);
-            window.location.href = 'home.html'; // Redirect after successful registration
+            window.location.href = 'home.html'; 
         } else {
             console.error('saveUserDetails function is not accessible.');
         }
