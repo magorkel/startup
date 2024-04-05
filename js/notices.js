@@ -1,5 +1,8 @@
 document.addEventListener('DOMContentLoaded', () => {
     // TODO: This function will be responsible for calling the Quote of the Day API.
+
+    const userInfo = JSON.parse(localStorage.getItem('validUser'));
+
     function fetchQuoteOfTheDay() {
         const quoteText = "Dance is the hidden language of the soul of the body.";
         const quoteAuthor = "Martha Graham";
@@ -32,6 +35,7 @@ document.addEventListener('DOMContentLoaded', () => {
         quoteAuthorElement.textContent = `- ${author}`;
     }
 
+    document.querySelector('.user-name').textContent = userInfo.parentName || 'No name provided';
     // Initial call to fetch the quote of the day
     fetchQuoteOfTheDay();
 });

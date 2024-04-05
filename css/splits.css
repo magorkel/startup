@@ -1,0 +1,26 @@
+/* Use Google Fonts for better typography */
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap");
+
+.main-content {
+  padding: 20px;
+}
+
+.splits-info {
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  background-color: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  margin-top: 20px; /* Add margin for spacing */
+}
+
+/* Add media query for responsiveness */
+@media (max-width: 768px) {
+
+  .main-content {
+    padding: 10px;
+  }
+
+  .splits-info {
+    padding: 10px;
+  }
+}
