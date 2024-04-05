@@ -133,3 +133,24 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
   - I will start on this tomorrow (it's 11:30 pm)
 
   - This has now been added in the form of a chat page. It is all prettiefied and looks wonderful (in my opinion)
+
+## Startup JavaScript
+
+- I made the app work for a single log in user, but also for someone registering for the first time.
+- Login and Register
+  - The information used to either log in or register is saved to local storage and is able to be accessed throughout the rest of the app
+  - both take you to the home page where you can see "your childs" information
+- Database
+  - this is currently represented in multiple places.
+  - the first is on the home page and profile pages
+    - the information for the current user is "pulled" from the database and displayed using the html id's and classes
+  - the second is on the admin page
+    - class information is "pulled" from the database and displayed along with the various students enrolled in those classes
+    - a student (currently named after the alphabet) can also be clicked on and have their personal information displayed (this is just the current users information, I didn't want to have to make too many people that I would have to go back and delete)
+  - all databases are represented in local storage for now
+  - I also replicated a 3rd party API call to pull my quote of the day on the notifications page. This will of course be updated later.
+- WebSocket
+  - this is the chat page
+  - currently its just some fancy JavaScript to make the new message pop up under the already existing ones, but that will be updated
+  - Application logic
+    - at the moment the only thing really changing is the users information which they can update and is stored in local storage to be used accross the app
