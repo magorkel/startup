@@ -44,3 +44,10 @@
   - C:\Users\18015\Desktop\cs260\startup **be in this folder in the terminal**
   - ./deployFiles.sh -k C:/Users/18015/Desktop/cs260/Keys/balletApp.pem -h ballet260.click -s startup
     - don't forget to do the same for simon - clone the repo into cs260
+
+## running on the server
+
+- node server.js
+- this will run on port 3000
+- go to localhost:3000
+- when you want to quit hit ctrl + c

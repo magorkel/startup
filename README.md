@@ -152,5 +152,5 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 - WebSocket
   - this is the chat page
   - currently its just some fancy JavaScript to make the new message pop up under the already existing ones, but that will be updated
-  - Application logic
-    - at the moment the only thing really changing is the users information which they can update and is stored in local storage to be used accross the app
+- Application logic
+  - at the moment the only thing really changing is the users information which they can update and is stored in local storage to be used accross the app

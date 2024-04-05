@@ -1,0 +1,23 @@
+{
+  "name": "startup",
+  "version": "1.0.0",
+  "description": "I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so much. I love interacting with my students on a daily basis and seeing their progress and sharing their learning moments with them. However, communicating with the parents can be a hug problem for me. I have been unable to find a serice that provides all of the communication in one place. Currently I am using multiple platforms such as text, email, google calendars and google spreadsheets and frankly its a mess. I never know where I've put information or if I've forgotten to update something or if I've sent the right information to the right class's parents. So I have decided to just skip all the fuss and make my own app where I can easily put everything I need and update parents smoothly. Most moms these days are quite attatched to their phones and use them for reminders of their kids activities already, so I thought that would be the best way to communicate.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/magorkel/startup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/magorkel/startup/issues"
+  },
+  "homepage": "https://github.com/magorkel/startup#readme",
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
