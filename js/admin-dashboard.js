@@ -22,6 +22,8 @@ const classes = [
     // Corrected: Targeting the #classesContainer for appending class lists
     const classesContainer = document.querySelector('#classesContainer');
   
+    const userInfo = JSON.parse(localStorage.getItem('validUser'));
+
     classes.forEach(cl => {
       const section = document.createElement('section');
       const classTitle = document.createElement('h3');
@@ -45,5 +47,7 @@ const classes = [
       section.appendChild(studentList);
       classesContainer.appendChild(section); // Corrected to append to classesContainer
     });
+
+    document.querySelector('.user-name').textContent = userInfo.parentName || 'No name provided';
   });
   

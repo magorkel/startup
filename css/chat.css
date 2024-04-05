@@ -1,8 +1,10 @@
 .chat-container {
     display: flex;
     flex-direction: column;
-    margin-top: 20px;
-    padding-bottom: 70px; /
+    margin-top: 30px;
+    padding-bottom: 100px; 
+    max-height: calc(83vh - 160px); /* Adjust based on your header and footer height */
+    overflow-y: auto; /
   }
   
   .message {
@@ -16,12 +18,12 @@
   }
   
   .admin {
-    align-self: flex-end;
+    align-self: flex-start;
     background-color: #c2c2c2; /* Gray color for your messages */
   }
   
   .user {
-    align-self: flex-start;
+    align-self: flex-end;
     background-color: #ffc0cb; /* Light pink for the user's messages */
   }
 
