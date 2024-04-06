@@ -23,12 +23,39 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        if (typeof window.saveUserDetails === "function") {
+        const classDetails = getClassAndSchedule(userDetails.childBirthdate);
+        userDetails.className = classDetails.className;
+        userDetails.classSchedule = classDetails.classSchedule;
+
+        fetch('http://localhost:4000/api/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(userDetails),
+        })
+        .then(response => {
+          if (response.ok) {
+            return response.json();
+          }
+          throw new Error('Network response was not ok.');
+        })
+        .then(data => {
+            console.log(data.message);
+            alert('Registration Successful');
+            window.location.href = 'home.html';
+        })
+        .catch(error => {
+            console.error('Error during registration:', error);
+            alert('Registration failed');
+        });
+
+        /*if (typeof window.saveUserDetails === "function") {
             window.saveUserDetails(userDetails);
             window.location.href = 'home.html'; 
         } else {
             console.error('saveUserDetails function is not accessible.');
-        }
+        }*/
     });
 });
 
