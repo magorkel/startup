@@ -1,41 +1,37 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const loginForm = document.getElementById('loginForm');
 
-    loginForm.addEventListener('submit', async (event) => {
-        event.preventDefault(); // Prevent the default form submission
-
-        const username = document.getElementById('username').value.trim();
-        const password = document.getElementById('password').value.trim();
+    document.getElementById('loginForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+      
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
         if (username === "" || password === "") {
             alert('Both username and password are required to log in.');
             return;
         }
-
-        try {
-            const response = await fetch('/login', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ username, password })
-            });
-            
-            const data = await response.json();
-            
-            if (response.ok) {
-                console.log('Logging in as valid user.');
-                // Here you could also store the received token in localStorage
-                localStorage.setItem('token', data.token);
+      
+        fetch('http://localhost:4000/api/login', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ username:username, password:password }),
+        })
+        .then (response => { 
+            if (response.status == 200)
+            {
                 window.location.href = 'home.html';
-            } else {
-                alert(data.message);
             }
-        } catch (error) {
-            console.error('Error logging in:', error);
-            alert('An error occurred. Please try again.');
-        }
-    });
+            else
+            {
+                alert('Invalid Login');
+            }
+            response.json() })
+        .catch((error) => {
+          console.error('Error:', error);
+        });
+      });
 });
 
 
