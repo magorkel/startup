@@ -10,8 +10,32 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Both username and password are required to log in.');
             return;
         }
-      
+
         fetch('http://localhost:4000/api/login', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ username: username, password: password }),
+        })
+        .then(response => {
+            if (response.ok) { // Checks if the status code is 2xx
+                localStorage.setItem('currentUsername', username); // Store username upon successful login
+                window.location.href = 'home.html'; // Redirect to home page
+                return response.json(); // We proceed to parse the JSON response
+            } else {
+                alert('Invalid Login');
+                throw new Error('Login failed'); // Throw an error to break the chain
+            }
+        })
+        .then(data => {
+            console.log('Login Successful:', data.message); // Optionally log or handle the data/message
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+      
+        /*fetch('http://localhost:4000/api/login', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -21,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then (response => { 
             if (response.status == 200)
             {
+                localStorage.setItem('currentUsername', username);
                 window.location.href = 'home.html';
             }
             else
@@ -30,7 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
             response.json() })
         .catch((error) => {
           console.error('Error:', error);
-        });
+        });*/
       });
 });
 

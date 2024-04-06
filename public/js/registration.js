@@ -43,6 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
         .then(data => {
             console.log(data.message);
             alert('Registration Successful');
+            localStorage.setItem('currentUsername', userDetails.username);
             window.location.href = 'home.html';
         })
         .catch(error => {

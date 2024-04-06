@@ -14,6 +14,7 @@ const staticUser = {
   parentName: 'Jane Doe',
   childName: 'Jonny Doe',
   childBirthdate: '01/01/2012',
+  childAge: '14',
   parentPhone: '12345678',
   parentEmail: 'jane.doe@gmail.com',
   className: 'Pre-Ballet',
@@ -21,6 +22,7 @@ const staticUser = {
   username: 'Jane',
   password: '123' 
 };
+users.push(staticUser);
 
 apiRouter.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -48,11 +50,20 @@ apiRouter.post('/register', (req, res) => {
   res.status(201).json({ message: 'Registration successful' });
 });
 
-// Add more of your endpoints here
-app.get('/api/data', (req, res) => {
-  // Return some JSON or handle a service
-  res.json({ message: "This is your data." });
+// Endpoint to get user information by username
+apiRouter.get('/user', (req, res) => {
+  const { username } = req.query;
+
+  const user = users.find(u => u.username === username);
+
+  if (user) {
+    const { password, ...userWithoutPassword } = user; // Exclude password from the response
+    res.json(userWithoutPassword);
+  } else {
+    res.status(404).json({ message: 'User not found' });
+  }
 });
+
 
 // Start the server
 app.listen(PORT, () => {
