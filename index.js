@@ -64,6 +64,19 @@ apiRouter.get('/user', (req, res) => {
   }
 });
 
+apiRouter.put('/user/update', (req, res) => {
+  const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
+  
+  const userIndex = users.findIndex(u => u.username === username);
+  if (userIndex === -1) {
+    return res.status(404).json({ message: 'User not found' });
+  }
+
+  // Update user information
+  users[userIndex] = { ...users[userIndex], parentName, childName, childBirthdate, parentPhone, parentEmail, password, className, classSchedule };
+  
+  res.json({ message: 'User information updated successfully' });
+});
 
 // Start the server
 app.listen(PORT, () => {
