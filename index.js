@@ -24,6 +24,82 @@ const staticUser = {
 };
 users.push(staticUser);
 
+let students = [
+  {
+      id: 'student-001',
+      childName: 'Alex Smith',
+      parentName: 'Jordan Smith',
+      parentPhone: '555-0101',
+      parentEmail: 'jordan.smith@example.com',
+      className: 'Creative Movement',
+      classSchedule: 'Mondays 3:00-3:25 pm'
+  },
+  {
+      id: 'student-002',
+      childName: 'Bailey Johnson',
+      parentName: 'Taylor Johnson',
+      parentPhone: '555-0202',
+      parentEmail: 'taylor.johnson@example.com',
+      className: 'Creative Ballet',
+      classSchedule: 'Mondays and Wednesdays 3:30-4:00 pm'
+  },
+  {
+      id: 'student-003',
+      childName: 'Casey Williams',
+      parentName: 'Morgan Williams',
+      parentPhone: '555-0303',
+      parentEmail: 'morgan.williams@example.com',
+      className: 'Pre-Ballet',
+      classSchedule: 'Mondays and Wednesdays 4:00-4:45 pm'
+  },
+  {
+      id: 'student-004',
+      childName: 'Dylan Robinson',
+      parentName: 'Quinn Robinson',
+      parentPhone: '555-0404',
+      parentEmail: 'quinn.robinson@example.com',
+      className: 'Creative Movement',
+      classSchedule: 'Mondays 3:00-3:25 pm'
+  },
+  {
+      id: 'student-005',
+      childName: 'Elliott King',
+      parentName: 'Riley King',
+      parentPhone: '555-0505',
+      parentEmail: 'riley.king@example.com',
+      className: 'Creative Ballet',
+      classSchedule: 'Mondays and Wednesdays 3:30-4:00 pm'
+  },
+  {
+      id: 'student-006',
+      childName: 'Finley Davis',
+      parentName: 'Sawyer Davis',
+      parentPhone: '555-0606',
+      parentEmail: 'sawyer.davis@example.com',
+      className: 'Pre-Ballet',
+      classSchedule: 'Mondays and Wednesdays 4:00-4:45 pm'
+  }
+];
+
+let classes = [
+  {
+      name: "Creative Movement",
+      times: "Mondays 3:00-3:25 pm",
+      studentIds: ["student-001", "student-004"] // Referencing by student ID
+  },
+  {
+      name: "Creative Ballet",
+      times: "Mondays and Wednesdays 3:30-4:00 pm",
+      studentIds: ["student-002", "student-005"] // Referencing by student ID
+  },
+  {
+      name: "Pre-Ballet",
+      times: "Mondays and Wednesdays 4:00-4:45 pm",
+      studentIds: ["student-003", "student-006"] // Referencing by student ID
+  },
+  // Add more classes as needed
+];
+
 apiRouter.post('/login', (req, res) => {
   const { username, password } = req.body;
 
@@ -76,6 +152,24 @@ apiRouter.put('/user/update', (req, res) => {
   users[userIndex] = { ...users[userIndex], parentName, childName, childBirthdate, parentPhone, parentEmail, password, className, classSchedule };
   
   res.json({ message: 'User information updated successfully' });
+});
+
+apiRouter.get('/classes', (req, res) => {
+  try {
+    const detailedClasses = classes.map(cl => {
+      const studentsDetails = cl.studentIds.map(id => {
+        const student = students.find(s => s.id === id);
+        return student || { id: id, childName: "Unknown" };
+      });
+
+      return { ...cl, students: studentsDetails }; // Attach student details
+    });
+
+    res.json(detailedClasses);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ message: 'Server error' });
+  }
 });
 
 // Start the server
