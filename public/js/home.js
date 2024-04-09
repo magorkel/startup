@@ -1,4 +1,49 @@
 document.addEventListener('DOMContentLoaded', () => {
+    const username = localStorage.getItem('currentUsername');
+
+    if (username) {
+        fetch(`http://localhost:4000/api/user?username=${encodeURIComponent(username)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                return response.json();
+            })
+            .then(userInfo => {
+                // Update child's name
+                const childNameElement = document.getElementById('childName');
+                if (childNameElement) {
+                    childNameElement.textContent = userInfo.childName || 'Not provided';
+                }
+
+                // Update class name (previously was 'childClass' in HTML)
+                const childClassElement = document.getElementById('childClass');
+                if (childClassElement) {
+                    childClassElement.textContent = userInfo.className || 'Not available';
+                }
+
+                // Update class schedule (previously was 'className' in HTML which seems to be incorrect)
+                const classScheduleElement = document.getElementById('classSchedule');
+                if (classScheduleElement) {
+                    classScheduleElement.textContent = userInfo.classSchedule || 'Please contact us for more information.';
+                }
+
+                // Update the parent's name display
+                const userNameDisplay = document.querySelector('.user-name');
+                if (userNameDisplay) {
+                    userNameDisplay.textContent = userInfo.parentName || 'No name provided';
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                window.location.href = 'index.html';
+            });
+    } else {
+        window.location.href = 'index.html';
+    }
+});
+
+/*document.addEventListener('DOMContentLoaded', () => {
     
     const username = localStorage.getItem('currentUsername');
 
@@ -43,5 +88,5 @@ document.addEventListener('DOMContentLoaded', () => {
     } else {
         // If no user is logged in, redirect to login page or show a message
         window.location.href = 'index.html'; // Redirect to login page
-    }*/
-});
+    }
+});*/

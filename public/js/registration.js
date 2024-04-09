@@ -9,23 +9,31 @@ document.addEventListener('DOMContentLoaded', () => {
 
         const userDetails = {
             parentName: document.getElementById('parent_name').value.trim(),
-            childName: document.getElementById('child_name').value.trim(),
-            childBirthdate: document.getElementById('child_birthdate').value.trim(),
             parentPhone: document.getElementById('parent_phone').value.trim(),
             parentEmail: document.getElementById('parent_email').value.trim(),
             username: document.getElementById('new_username').value.trim(),
-            password: document.getElementById('new_password').value.trim()
+            password: document.getElementById('new_password').value.trim(),
+            children: [{
+                childName: document.getElementById('child_name').value.trim(),
+                childBirthdate: document.getElementById('child_birthdate').value.trim(),
+                // ... add any other child-specific fields here ...
+            }]
         };
 
         // Ensure all required fields are filled
-        if (!userDetails.parentName || !userDetails.childName || !userDetails.childBirthdate || !userDetails.parentPhone || !userDetails.parentEmail || !userDetails.username || !userDetails.password) {
+        if (!userDetails.parentName || !userDetails.parentPhone || !userDetails.parentEmail || !userDetails.username || !userDetails.password || userDetails.children.some(child => !child.childName || !child.childBirthdate)) {
             alert('All fields are required.');
             return;
         }
 
-        const classDetails = getClassAndSchedule(userDetails.childBirthdate);
-        userDetails.className = classDetails.className;
-        userDetails.classSchedule = classDetails.classSchedule;
+        userDetails.children = userDetails.children.map(child => {
+            const classDetails = getClassAndSchedule(child.childBirthdate);
+            return {
+                ...child,
+                className: classDetails.className,
+                classSchedule: classDetails.classSchedule,
+            };
+        });
 
         fetch('http://localhost:4000/api/register', {
           method: 'POST',
