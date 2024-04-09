@@ -215,30 +215,26 @@ apiRouter.post('/login', (req, res) => {
 
 apiRouter.post('/register', (req, res) => {
   const { parentName, parentPhone, parentEmail, username, password, children } = req.body;
-  
-  // Ensure that children is defined and is an array
-  if (!Array.isArray(children)) {
-    return res.status(400).json({ message: 'Children must be an array' });
-  }
-  
+
   // Check if the user already exists
   const existingUser = users.find(user => user.username === username);
   if (existingUser) {
     return res.status(409).json({ message: 'User already exists' });
   }
 
-  // Proceed to create a new user
+  // Create the new user with the provided class name and schedule
   const newUser = {
     id: `user-${users.length + 1}`,
     parentName,
     parentPhone,
     parentEmail,
     username,
-    password, // Remember to hash the password in a real app
-    children: children.map(child => ({
-      ...child,
-      childId: `child-${Date.now()}-${Math.random().toString(16).slice(2)}` // Generate a unique child ID
-    }))
+    password, // Hash this in production
+    childName: children[0].childName,
+    childBirthdate: children[0].childBirthdate,
+    age: calculateAge(children[0].childBirthdate),
+    className: children[0].className, // Take class name from the request
+    classSchedule: children[0].classSchedule, // Take class schedule from the request
   };
 
   users.push(newUser);
