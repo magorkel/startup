@@ -11,7 +11,10 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        fetch('http://localhost:4000/api/login', {
+        const baseUrl = window.location.hostname === 'localhost' ?
+        'http://localhost:4000' : 'https://ballet260.com';
+
+        fetch(`${baseUrl}/api/login`, {
             method: 'POST',
             headers: {
                 'Content-Type': 'application/json',

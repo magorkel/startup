@@ -10,7 +10,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Fetch class information from the server
-  fetch('http://localhost:4000/api/classes')
+  const baseUrl = window.location.hostname === 'localhost' ?
+        'http://localhost:4000' : 'https://ballet260.com';
+  fetch(`${baseUrl}/api/classes`)
       .then(response => {
           // Check if the response is successful, if not, throw an error
           if (!response.ok) {
@@ -57,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
   // Fetch user information from the server to update the user name in the top right corner
-  fetch(`http://localhost:4000/api/user?username=${encodeURIComponent(username)}`)
+  fetch(`${baseUrl}/api/user?username=${encodeURIComponent(username)}`)
       .then(response => {
           if (!response.ok) {
               throw new Error('Failed to fetch user information');

@@ -7,7 +7,7 @@ const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
 const allowedOrigins = [
   'http://localhost:3000', // The domain your frontend is served on
   'http://localhost:4000', // The domain your backend is served on
-  'https://your-registered-domain.com', // Replace with your actual registered domain
+  'https://ballet260.com', // Replace with your actual registered domain
   // You can add more domains here
 ];
 

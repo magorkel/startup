@@ -12,7 +12,9 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Fetch the updated user name from the server
-  fetch(`http://localhost:4000/api/user?username=${encodeURIComponent(username)}`)
+  const baseUrl = window.location.hostname === 'localhost' ?
+        'http://localhost:4000' : 'https://ballet260.com';
+  fetch(`${baseUrl}/api/user?username=${encodeURIComponent(username)}`)
       .then(response => {
           if (!response.ok) {
               throw new Error('Failed to fetch user information');

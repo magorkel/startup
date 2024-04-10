@@ -35,7 +35,10 @@ document.addEventListener('DOMContentLoaded', () => {
             };
         });
 
-        fetch('http://localhost:4000/api/register', {
+        const baseUrl = window.location.hostname === 'localhost' ?
+        'http://localhost:4000' : 'https://ballet260.com';
+
+        fetch(`${baseUrl}/api/register`, {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
