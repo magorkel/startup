@@ -1,17 +1,14 @@
 const express = require('express');
-const cors = require('cors'); // Include the cors package
+const cors = require('cors'); 
 const app = express();
 const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
 
-// Define the allowed origins
 const allowedOrigins = [
-  'http://localhost:3000', // The domain your frontend is served on
-  'http://localhost:4000', // The domain your backend is served on
-  'https://ballet260.com', // Replace with your actual registered domain
-  // You can add more domains here
+  'http://localhost:3000',
+  'http://localhost:4000', 
+  'https://ballet260.click',
 ];
 
-// Configure CORS middleware
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {

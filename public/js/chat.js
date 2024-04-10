@@ -13,7 +13,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch the updated user name from the server
   const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://ballet260.com';
+        'http://localhost:4000' : 'https://ballet260.click';
   fetch(`${baseUrl}/api/user?username=${encodeURIComponent(username)}`)
       .then(response => {
           if (!response.ok) {

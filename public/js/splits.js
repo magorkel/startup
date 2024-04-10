@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (username) {
         const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://ballet260.com';
+        'http://localhost:4000' : 'https://ballet260.click';
         fetch(`${baseUrl}/api/user?username=${encodeURIComponent(username)}`)
             .then(response => {
                 if (!response.ok) {

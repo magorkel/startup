@@ -9,7 +9,7 @@ function getQueryParams() {
 // Function to fetch and display the student's information
 function fetchStudentInfo(studentId) {
     const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://ballet260.com';
+        'http://localhost:4000' : 'https://ballet260.click';
   fetch(`${baseUrl}/api/student?id=${encodeURIComponent(studentId)}`)
       .then(response => {
           if (!response.ok) {

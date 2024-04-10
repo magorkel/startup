@@ -11,7 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
   // Fetch class information from the server
   const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://ballet260.com';
+        'http://localhost:4000' : 'https://ballet260.click';
   fetch(`${baseUrl}/api/classes`)
       .then(response => {
           // Check if the response is successful, if not, throw an error
