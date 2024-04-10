@@ -1,5 +1,7 @@
 const express = require('express');
 const cors = require('cors'); 
+const { MongoClient } = require('mongodb');
+const config = require('./dbConfig.json');
 const app = express();
 const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
 
@@ -32,6 +34,8 @@ app.use(express.json());
 
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
+
+const client = new MongoClient(`mongodb+srv://${config.userName}:${config.password}@${config.hostname}`);
 
 let users = [
   {
@@ -123,77 +127,6 @@ let users = [
     age: calculateAge('2014-07-19'),
   }
 ];
-/*let users = [];
-const staticUser = {
-  parentName: 'Jane Doe',
-  childName: 'Jonny Doe',
-  childBirthdate: '01/01/2012',
-  childAge: '14',
-  parentPhone: '12345678',
-  parentEmail: 'jane.doe@gmail.com',
-  className: 'Pre-Ballet',
-  classSchedule: 'Mondays and Wednesdays 4:00-4:45 pm',
-  username: 'Jane',
-  password: '123' 
-};
-users.push(staticUser);
-
-let students = [
-  {
-      id: 'student-001',
-      childName: 'Alex Smith',
-      parentName: 'Jordan Smith',
-      parentPhone: '555-0101',
-      parentEmail: 'jordan.smith@example.com',
-      className: 'Creative Movement',
-      classSchedule: 'Mondays 3:00-3:25 pm'
-  },
-  {
-      id: 'student-002',
-      childName: 'Bailey Johnson',
-      parentName: 'Taylor Johnson',
-      parentPhone: '555-0202',
-      parentEmail: 'taylor.johnson@example.com',
-      className: 'Creative Ballet',
-      classSchedule: 'Mondays and Wednesdays 3:30-4:00 pm'
-  },
-  {
-      id: 'student-003',
-      childName: 'Casey Williams',
-      parentName: 'Morgan Williams',
-      parentPhone: '555-0303',
-      parentEmail: 'morgan.williams@example.com',
-      className: 'Pre-Ballet',
-      classSchedule: 'Mondays and Wednesdays 4:00-4:45 pm'
-  },
-  {
-      id: 'student-004',
-      childName: 'Dylan Robinson',
-      parentName: 'Quinn Robinson',
-      parentPhone: '555-0404',
-      parentEmail: 'quinn.robinson@example.com',
-      className: 'Creative Movement',
-      classSchedule: 'Mondays 3:00-3:25 pm'
-  },
-  {
-      id: 'student-005',
-      childName: 'Elliott King',
-      parentName: 'Riley King',
-      parentPhone: '555-0505',
-      parentEmail: 'riley.king@example.com',
-      className: 'Creative Ballet',
-      classSchedule: 'Mondays and Wednesdays 3:30-4:00 pm'
-  },
-  {
-      id: 'student-006',
-      childName: 'Finley Davis',
-      parentName: 'Sawyer Davis',
-      parentPhone: '555-0606',
-      parentEmail: 'sawyer.davis@example.com',
-      className: 'Pre-Ballet',
-      classSchedule: 'Mondays and Wednesdays 4:00-4:45 pm'
-  }
-];*/
 
 let classes = [
   {
@@ -213,7 +146,82 @@ let classes = [
   }
 ];
 
-apiRouter.post('/login', (req, res) => {
+async function main() {
+  try {
+    await client.connect();
+    console.log('Connected to MongoDB');
+    
+    const db = client.db('BalletInfo'); 
+    const usersCollection = db.collection('users');
+    const classesCollection = db.collection('classes');
+
+    const usersCount = await usersCollection.countDocuments();
+    if (usersCount === 0) {
+      await usersCollection.insertMany(users);
+      console.log('Users collection has been initialized.');
+    } else {
+      console.log('Users collection already initialized.');
+    }
+
+    const classesCount = await classesCollection.countDocuments();
+    if (classesCount === 0) {
+      await classesCollection.insertMany(classes);
+      console.log('Classes collection has been initialized.');
+    } else {
+      console.log('Classes collection already initialized.');
+    }
+
+    apiRouter.post('/login', async (req, res) => {
+      const { username, password } = req.body;
+      const user = await usersCollection.findOne({ username: username });
+      
+      if (user && user.password === password) {
+        res.status(200).json({ message: 'Login successful' });
+      } else {
+        res.status(401).json({ message: 'Login failed' });
+      }
+    });
+
+    apiRouter.post('/register', async (req, res) => {
+      const { parentName, parentPhone, parentEmail, username, password, children } = req.body;
+
+      // Check if the user already exists
+      //const existingUser = users.find(user => user.username === username);
+      const existingUser = await usersCollection.findOne({username: username});
+      if (existingUser) {
+        return res.status(409).json({ message: 'User already exists' });
+      }
+
+      // Create the new user with the provided class name and schedule
+      const newUser = {
+        id: `user-${users.length + 1}`,
+        parentName,
+        parentPhone,
+        parentEmail,
+        username,
+        password, // Hash this in production
+        childName: children[0].childName,
+        childBirthdate: children[0].childBirthdate,
+        age: calculateAge(children[0].childBirthdate),
+        className: children[0].className, // Take class name from the request
+        classSchedule: children[0].classSchedule, // Take class schedule from the request
+      }   ;
+
+      users.push(newUser);
+      res.status(201).json({ message: 'Registration successful' });
+    });
+
+    // ... and so on for each route that needs to interact with the database
+
+  } catch (ex) {
+    console.error(`Unable to connect to MongoDB because ${ex.message}`);
+    process.exit(1);
+  }
+}
+
+main().catch(console.error);
+
+/*apiRouter.post('/login', (req, res) => {
   const { username, password } = req.body;
 
   // Find the user by username
@@ -225,7 +233,7 @@ apiRouter.post('/login', (req, res) => {
   } else {
     res.status(401).json({ message: 'Login failed' });
   }
-});
+});*/
 
 /*apiRouter.post('/login', (req, res) => {
   const { username, password } = req.body;
@@ -237,7 +245,7 @@ apiRouter.post('/login', (req, res) => {
   }
 });*/
 
-apiRouter.post('/register', (req, res) => {
+/*apiRouter.post('/register', (req, res) => {
   const { parentName, parentPhone, parentEmail, username, password, children } = req.body;
 
   // Check if the user already exists
@@ -263,7 +271,7 @@ apiRouter.post('/register', (req, res) => {
 
   users.push(newUser);
   res.status(201).json({ message: 'Registration successful' });
-});
+});*/
 
 apiRouter.get('/user', (req, res) => {
   const { username } = req.query;
