@@ -14,9 +14,7 @@ function preloadFormData() {
         return;
     }
 
-    const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://ballet260.click';
-    fetch(`${baseUrl}/api/user?username=${encodeURIComponent(username)}`)
+    fetch(`/api/user?username=${encodeURIComponent(username)}`)
         .then(response => {
             if (!response.ok) {
                 throw new Error('Failed to fetch user information');

@@ -6,7 +6,7 @@ const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
 const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:4000', 
-  'https://ballet260.click',
+  'https://startup.ballet260.click',
 ];
 
 const corsOptions = {

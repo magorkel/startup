@@ -51,3 +51,7 @@
 - this will run on port 3000
 - go to localhost:3000
 - when you want to quit hit ctrl + c
+
+## checking Caddyfile
+
+- go to my domain name section
