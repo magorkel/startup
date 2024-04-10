@@ -1,6 +1,33 @@
 const express = require('express');
+const cors = require('cors'); // Include the cors package
 const app = express();
 const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
+
+// Define the allowed origins
+const allowedOrigins = [
+  'http://localhost:3000', // The domain your frontend is served on
+  'http://localhost:4000', // The domain your backend is served on
+  'https://your-registered-domain.com', // Replace with your actual registered domain
+  // You can add more domains here
+];
+
+// Configure CORS middleware
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+};
+
+// Enable pre-flight requests for all routes
+app.options('*', cors(corsOptions));
+
+// Use cors middleware with the above options
+app.use(cors(corsOptions));
 
 app.use(express.static('public'));
 
