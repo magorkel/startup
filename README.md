@@ -154,3 +154,12 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
   - currently its just some fancy JavaScript to make the new message pop up under the already existing ones, but that will be updated
 - Application logic
   - at the moment the only thing really changing is the users information which they can update and is stored in local storage to be used accross the app
+
+## Startup Service
+
+- I have added api back end calls for everything on my website: login and registration, user information, lists of students and a 3rd party api call for the quote of the day (I couldn't find an api for ballet quotes, so they are just quotes on being happy)
+- Node.js/Express HTTP service - this is the index.js file in my main level
+- static middleware for frontend - also in the index.js
+- calls to 3rd party endpoints - this is the quote of the day found on the notices page
+- backend service endpoints - I have created several mock databases in my service side index.js that are accessable throughout my app using api calls
+- frontend calls service endpoints - this is used in all my fetch functions in all of my js files in public/js
