@@ -59,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
       });
 
   // Fetch user information from the server to update the user name in the top right corner
-  fetch(`${baseUrl}/api/user?username=${encodeURIComponent(username)}`)
+  fetch(`/api/user?username=${encodeURIComponent(username)}`)
       .then(response => {
           if (!response.ok) {
               throw new Error('Failed to fetch user information');
