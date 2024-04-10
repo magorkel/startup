@@ -282,9 +282,9 @@ apiRouter.put('/user/update', (req, res) => {
 apiRouter.get('/classes', (req, res) => {
   try {
     const detailedClasses = classes.map(cl => {
-      const studentsDetails = cl.studentIds.map(id => {
-        const student = students.find(s => s.id === id);
-        return student || { id: id, childName: "Unknown" };
+      const studentsDetails = cl.studentNames.map(studentName => {
+        const student = users.find(u => u.childName === studentName);
+        return student || { childName: studentName };
       });
 
       return { ...cl, students: studentsDetails }; // Attach student details
@@ -350,3 +350,50 @@ function getClassAndSchedule(childBirthdate) {
 
   return { className, classSchedule };
 }
+
+const fetch = require('node-fetch'); // Import the fetch function
+
+// Function to get a random quote from the Quotes API
+async function getRandomQuote(category) {
+    const url = `https://api.api-ninjas.com/v1/quotes?category=${category}`;
+    const apiKey = 'kgviXk1AtpGSROxD9Y7T8A==sU676LHiko112Yly'; // Replace with your actual X-Api-Key
+
+    try {
+        const response = await fetch(url, {
+            method: 'GET',
+            headers: {
+                'X-Api-Key': apiKey
+            }
+        });
+
+        if (!response.ok) {
+            throw new Error(`Error: ${response.status}`); // or handle error responses as needed
+        }
+
+        const data = await response.json();
+        return data; // This will be an array of quotes
+    } catch (error) {
+        console.error('Failed to fetch quote:', error);
+    }
+}
+
+// Example usage of getRandomQuote()
+getRandomQuote('happiness').then(quotes => {
+    if (quotes && quotes.length > 0) {
+        console.log('Random Quote:', quotes[0].quote); // Log the first quote from the response
+    }
+});
+
+apiRouter.get('/random-quote', async (req, res) => {
+  const category = req.query.category || 'happiness'; // Use 'happiness' as a default category if none is provided
+  try {
+      const quotes = await getRandomQuote(category);
+      if (quotes && quotes.length > 0) {
+          res.json(quotes[0]); // Send the first quote from the response
+      } else {
+          res.status(404).json({ message: 'No quotes found' });
+      }
+  } catch (error) {
+      res.status(500).json({ message: error.message });
+  }
+});

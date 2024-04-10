@@ -1,15 +1,34 @@
 // splits.js
 
 document.addEventListener('DOMContentLoaded', () => {
-    // Assume the user's information is stored in local storage under 'validUser'
-    const userInfo = JSON.parse(localStorage.getItem('validUser'));
-  
-    if (userInfo) {
-        // Set the name in the profile photo container
-        const userNameDisplay = document.querySelector('.user-name');
-        userNameDisplay.textContent = userInfo.parentName || 'No name provided';
+    const username = localStorage.getItem('currentUsername'); // Retrieve the username saved in localStorage
+
+    if (username) {
+        fetch(`http://localhost:4000/api/user?username=${encodeURIComponent(username)}`)
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch user information');
+                }
+                return response.json();
+            })
+            .then(userInfo => {
+                // Update the user name in the top right corner
+                const userNameDisplay = document.querySelector('.user-name');
+                if (userNameDisplay) {
+                    userNameDisplay.textContent = userInfo.parentName || 'No name provided';
+                }
+                // Assuming the userInfo object contains the parentName
+                
+                // If you want to fetch and display the quote of the day
+                // Here you could call the function that fetches the quote
+                fetchQuoteOfTheDay();
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                // Handle the error, perhaps redirect to login or show a message
+            });
     } else {
-        // Handle the case where there is no user info in local storage
-        console.log('No user information found in local storage.');
+        // Redirect to login page if no username is found in local storage
+        window.location.href = 'index.html';
     }
 });
