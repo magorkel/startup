@@ -7,36 +7,33 @@ document.addEventListener('DOMContentLoaded', () => {
     registrationForm.addEventListener('submit', (event) => {
         event.preventDefault();
 
-        const userDetails = {
-            parentName: document.getElementById('parent_name').value.trim(),
-            parentPhone: document.getElementById('parent_phone').value.trim(),
-            parentEmail: document.getElementById('parent_email').value.trim(),
-            username: document.getElementById('new_username').value.trim(),
-            password: document.getElementById('new_password').value.trim(),
-            children: [{
-                childName: document.getElementById('child_name').value.trim(),
-                childBirthdate: document.getElementById('child_birthdate').value.trim(),
-                // ... add any other child-specific fields here ...
-            }]
-        };
+        const parentName = document.getElementById('parent_name').value.trim();
+        const parentPhone = document.getElementById('parent_phone').value.trim();
+        const parentEmail = document.getElementById('parent_email').value.trim();
+        const username = document.getElementById('new_username').value.trim();
+        const password = document.getElementById('new_password').value.trim();
+        const childName = document.getElementById('child_name').value.trim();
+        const childBirthdate = document.getElementById('child_birthdate').value.trim();
 
         // Ensure all required fields are filled
-        if (!userDetails.parentName || !userDetails.parentPhone || !userDetails.parentEmail || !userDetails.username || !userDetails.password || userDetails.children.some(child => !child.childName || !child.childBirthdate)) {
+        if (!parentName || !parentPhone || !parentEmail || !username || !password || !childName || !childBirthdate) {
             alert('All fields are required.');
             return;
         }
 
-        userDetails.children = userDetails.children.map(child => {
-            const classDetails = getClassAndSchedule(child.childBirthdate);
-            return {
-                ...child,
-                className: classDetails.className,
-                classSchedule: classDetails.classSchedule,
-            };
-        });
+        const classDetails = getClassAndSchedule(childBirthdate);
 
-        /*const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://startup.ballet260.click';*/
+        const userDetails = {
+            parentName,
+            parentPhone,
+            parentEmail,
+            username,
+            password,
+            childName,
+            childBirthdate,
+            className: classDetails.className,
+            classSchedule: classDetails.classSchedule
+        };
 
         fetch(`/api/register`, {
           method: 'POST',
@@ -56,18 +53,12 @@ document.addEventListener('DOMContentLoaded', () => {
             alert('Registration Successful');
             localStorage.setItem('currentUsername', userDetails.username);
             window.location.href = 'home.html';
+            //loginUser(userDetails.username, userDetails.password);
         })
         .catch(error => {
             console.error('Error during registration:', error);
             alert('Registration failed');
         });
-
-        /*if (typeof window.saveUserDetails === "function") {
-            window.saveUserDetails(userDetails);
-            window.location.href = 'home.html'; 
-        } else {
-            console.error('saveUserDetails function is not accessible.');
-        }*/
     });
 });
 
@@ -115,4 +106,28 @@ function saveUserDetails(userDetails) {
   userDetails.classSchedule = classDetails.classSchedule;
 
   localStorage.setItem('validUser', JSON.stringify(userDetails));
+}
+
+function loginUser(username, password) {
+    fetch(`/api/login`, {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, password }),
+    })
+    .then(response => {
+        if (response.ok) {
+            return response.json();
+        }
+        throw new Error('Login failed after registration.');
+    })
+    .then(data => {
+        console.log('Login Successful:', data.message);
+        // Maybe set a session storage item or token here
+        window.location.href = 'home.html'; // Redirect to home page
+    })
+    .catch(error => {
+        console.error('Error:', error);
+    });
 }

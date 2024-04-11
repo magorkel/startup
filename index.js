@@ -48,6 +48,8 @@ let users = [
     childName: 'Jonny Doe',
     childBirthdate: '2012-01-01',
     age: calculateAge('2012-01-01'),
+    className: getClassAndSchedule('2012-01-01').className,
+    classSchedule: getClassAndSchedule('2012-01-01').classSchedule,
   },
   {
     id: 'user-002',
@@ -59,6 +61,8 @@ let users = [
     childName: 'Kyle Taylor',
     childBirthdate: '2014-05-21',
     age: calculateAge('2014-05-21'),
+    className: getClassAndSchedule('2014-05-21').className,
+    classSchedule: getClassAndSchedule('2014-05-21').classSchedule,
   },
   {
     id: 'user-003',
@@ -70,6 +74,8 @@ let users = [
     childName: 'Sophia Brown',
     childBirthdate: '2013-08-30',
     age: calculateAge('2013-08-30'),
+    className: getClassAndSchedule('2013-08-30').className,
+    classSchedule: getClassAndSchedule('2013-08-30').classSchedule,
   },
   {
     id: 'user-004',
@@ -81,6 +87,8 @@ let users = [
     childName: 'Liam Johnson',
     childBirthdate: '2015-09-15',
     age: calculateAge('2015-09-15'),
+    className: getClassAndSchedule('2015-09-15').className,
+    classSchedule: getClassAndSchedule('2015-09-15').classSchedule,
   },
   {
     id: 'user-005',
@@ -92,6 +100,8 @@ let users = [
     childName: 'Amelia Wilson',
     childBirthdate: '2011-04-18',
     age: calculateAge('2011-04-18'),
+    className: getClassAndSchedule('2011-04-18').className,
+    classSchedule: getClassAndSchedule('2011-04-18').classSchedule,
   },
   {
     id: 'user-006',
@@ -103,6 +113,8 @@ let users = [
     childName: 'Mason Miller',
     childBirthdate: '2012-03-17',
     age: calculateAge('2012-03-17'),
+    className: getClassAndSchedule('2012-03-17').className,
+    classSchedule: getClassAndSchedule('2012-03-17').classSchedule,
   },
   {
     id: 'user-007',
@@ -113,7 +125,9 @@ let users = [
     password: 'securePassword7', 
     childName: 'Oliver Smith',
     childBirthdate: '2013-05-22',
-    age: calculateAge('2013-05-22'),
+    age: calculateAge('2014-07-19'),
+    className: getClassAndSchedule('2014-07-19').className,
+    classSchedule: getClassAndSchedule('2014-07-19').classSchedule,
   },
   {
     id: 'user-008',
@@ -125,6 +139,8 @@ let users = [
     childName: 'Charlotte Brown',
     childBirthdate: '2014-07-19',
     age: calculateAge('2014-07-19'),
+    className: getClassAndSchedule('2014-07-19').className,
+    classSchedule: getClassAndSchedule('2014-07-19').classSchedule,
   }
 ];
 
@@ -183,33 +199,77 @@ async function main() {
     });
 
     apiRouter.post('/register', async (req, res) => {
-      const { parentName, parentPhone, parentEmail, username, password, children } = req.body;
+      const { parentName, parentPhone, parentEmail, username, password, childName, childBirthdate } = req.body;
 
-      // Check if the user already exists
-      //const existingUser = users.find(user => user.username === username);
-      const existingUser = await usersCollection.findOne({username: username});
-      if (existingUser) {
-        return res.status(409).json({ message: 'User already exists' });
+      try {
+        // Check if the user already exists
+        const existingUser = await usersCollection.findOne({ username: username });
+        if (existingUser) {
+          return res.status(409).json({ message: 'User already exists' });
+        }
+
+        // Calculate the child's age
+        const age = calculateAge(childBirthdate);
+
+        // Get the class and schedule based on the child's age
+        const { className, classSchedule } = getClassAndSchedule(childBirthdate);
+
+        // Create the new user with the provided information
+        const newUser = {
+          parentName,
+          parentPhone,
+          parentEmail,
+          username,
+          password, // You should hash this password before inserting it
+          childName,
+          childBirthdate,
+          age,
+          className,
+          classSchedule
+        };
+
+        // Insert the new user into the database
+        await usersCollection.insertOne(newUser);
+        res.status(201).json({ message: 'Registration successful' });
+      } catch (error) {
+        console.error('Registration error:', error);
+        res.status(500).json({ message: 'Registration failed' });
       }
-
-      // Create the new user with the provided class name and schedule
-      const newUser = {
-        id: `user-${users.length + 1}`,
-        parentName,
-        parentPhone,
-        parentEmail,
-        username,
-        password, // Hash this in production
-        childName: children[0].childName,
-        childBirthdate: children[0].childBirthdate,
-        age: calculateAge(children[0].childBirthdate),
-        className: children[0].className, // Take class name from the request
-        classSchedule: children[0].classSchedule, // Take class schedule from the request
-      }   ;
-
-      users.push(newUser);
-      res.status(201).json({ message: 'Registration successful' });
     });
+
+    apiRouter.get('/user', async (req, res) => {
+      const { username } = req.query;
+    
+      try {
+        // Query the MongoDB database for the user
+        const user = await usersCollection.findOne({ username: username });
+    
+        if (user) {
+          // Calculate class and schedule based on child's birthdate
+          //const { className, classSchedule } = getClassAndSchedule(user.childBirthdate);
+    
+          // Prepare the response without the password and other sensitive information
+          const response = {
+            parentName: user.parentName,
+            parentPhone: user.parentPhone,
+            parentEmail: user.parentEmail,
+            username: user.username,
+            childName: user.childName,
+            childBirthdate: user.childBirthdate,
+            age: user.age,
+            className: user.className, // Make sure these fields exist in your MongoDB document
+            classSchedule: user.classSchedule,
+          };
+    
+          res.json(response);
+        } else {
+          res.status(404).json({ message: 'User not found' });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      }
+    });    
 
     // ... and so on for each route that needs to interact with the database
 
@@ -273,7 +333,7 @@ main().catch(console.error);
   res.status(201).json({ message: 'Registration successful' });
 });*/
 
-apiRouter.get('/user', (req, res) => {
+/*apiRouter.get('/user', (req, res) => {
   const { username } = req.query;
 
   const user = users.find(u => u.username === username);
@@ -294,7 +354,7 @@ apiRouter.get('/user', (req, res) => {
   } else {
     res.status(404).json({ message: 'User not found' });
   }
-});
+});*/
 
 
 apiRouter.put('/user/update', (req, res) => {

@@ -2,9 +2,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const username = localStorage.getItem('currentUsername');
 
     if (username) {
-        /*const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://ballet260.click';*/
-
         fetch(`/api/user?username=${encodeURIComponent(username)}`)
             .then(response => {
                 if (!response.ok) {
