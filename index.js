@@ -225,6 +225,18 @@ async function main() {
         };
 
         await usersCollection.insertOne(newUser);
+
+        const updatedClass = await classesCollection.updateOne(
+          { name: className },
+          { $addToSet: { studentNames: childName } }
+          );
+
+        if (updatedClass.matchedCount === 0) {
+          console.error('No class found for this age group.');
+        } else if (updatedClass.modifiedCount === 0) {
+          console.error('Child not added to class (maybe already there?).');
+        }
+
         res.status(201).json({ message: 'Registration successful' });
       } catch (error) {
         console.error('Registration error:', error);
@@ -334,6 +346,41 @@ async function main() {
       }
   });
   
+  apiRouter.get('/classes', async (req, res) => {
+      try {
+          // Ensure connection to the database is established
+          await client.connect();
+
+          // Access the classes collection
+          const db = client.db('BalletInfo');
+          const classesCollection = db.collection('classes');
+
+          // Fetch all classes including the dynamically updated list of students
+          const classesData = await classesCollection.find({}).toArray();
+
+          // Build detailed class data including linked student details
+          const detailedClasses = await Promise.all(classesData.map(async cl => {
+              const studentsDetails = await Promise.all(cl.studentNames.map(async studentName => {
+                  // Fetch each student's details
+                  const studentDetails = await db.collection('users').findOne({ childName: studentName });
+                  return studentDetails ? {
+                    childName: studentName,
+                    parentName: studentDetails.parentName,
+                    age: studentDetails.age,
+                    className: studentDetails.className,
+                    classSchedule: studentDetails.classSchedule
+                  } : { childName: studentName };
+              }));
+
+            return { ...cl, students: studentsDetails };
+          }));
+
+          res.json(detailedClasses);
+      } catch (error) {
+          console.error('Failed to load classes:', error);
+          res.status(500).json({ message: 'Server error' });
+      }
+    });
     
     // ... and so on for each route that needs to interact with the database
 
@@ -434,7 +481,7 @@ main().catch(console.error);
   res.json({ message: 'User information updated successfully' });
 });*/
 
-apiRouter.get('/classes', (req, res) => {
+/*apiRouter.get('/classes', (req, res) => {
   try {
     const detailedClasses = classes.map(cl => {
       const studentsDetails = cl.studentNames.map(studentName => {
@@ -450,7 +497,7 @@ apiRouter.get('/classes', (req, res) => {
     console.error(error);
     res.status(500).json({ message: 'Server error' });
   }
-});
+});*/
 
 // Start the server
 app.listen(PORT, () => {
