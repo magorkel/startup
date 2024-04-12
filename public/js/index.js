@@ -11,9 +11,6 @@ document.addEventListener('DOMContentLoaded', () => {
             return;
         }
 
-        /*const baseUrl = window.location.hostname === 'localhost' ?
-        'http://localhost:4000' : 'https://startup.ballet260.click';*/
-
         fetch(`/api/login`, {
             method: 'POST',
             headers: {
@@ -38,28 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
         .catch(error => {
             console.error('Error:', error);
         });
-      
-        /*fetch('http://localhost:4000/api/login', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ username:username, password:password }),
-        })
-        .then (response => { 
-            if (response.status == 200)
-            {
-                localStorage.setItem('currentUsername', username);
-                window.location.href = 'home.html';
-            }
-            else
-            {
-                alert('Invalid Login');
-            }
-            response.json() })
-        .catch((error) => {
-          console.error('Error:', error);
-        });*/
       });
 });
 

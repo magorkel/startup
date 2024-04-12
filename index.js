@@ -434,56 +434,6 @@ async function main() {
       }
     });
     
-    /*apiRouter.get('/user', async (req, res) => {
-      const { username } = req.query;
-    
-      try {
-        const user = await usersCollection.findOne({ username: username });
-    
-        if (user) {
-
-          const response = {
-            parentName: user.parentName,
-            parentPhone: user.parentPhone,
-            parentEmail: user.parentEmail,
-            username: user.username,
-            childName: user.childName,
-            childBirthdate: user.childBirthdate,
-            age: user.age,
-            className: user.className, 
-            classSchedule: user.classSchedule,
-          };
-    
-          res.json(response);
-        } else {
-          res.status(404).json({ message: 'User not found' });
-        }
-      } catch (error) {
-        console.error(error);
-        res.status(500).json({ message: 'Server error' });
-      }
-    });*/    
-
-    /*apiRouter.put('/user/update', async (req, res) => {
-      const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
-      
-      try {
-        const result = await usersCollection.updateOne(
-          { username: username },
-          { $set: { parentName, childName, childBirthdate, parentPhone, parentEmail, password, className, classSchedule } }
-        );
-    
-        if (result.modifiedCount === 0) {
-          throw new Error('No document found with this username or no changes to update.');
-        }
-    
-        res.status(200).send({message: 'User information updated successfully'})
-      } catch (error) {
-        console.error('Update error:', error);
-        res.status(500).json({ message: 'Failed to update user information' });
-      }
-    });*/
-
     apiRouter.put('/user/update', async (req, res) => {
       const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
       
@@ -534,9 +484,9 @@ async function main() {
           console.error('Update error:', error);
           res.status(500).json({ message: 'Failed to update user information' });
       }
-  });
+    });
   
-  apiRouter.get('/classes', async (req, res) => {
+    apiRouter.get('/classes', async (req, res) => {
       try {
           // Ensure connection to the database is established
           await client.connect();
@@ -595,8 +545,6 @@ async function main() {
           res.status(500).json({ message: 'Server error' });
       }
     });
-  
-    // ... and so on for each route that needs to interact with the database
 
   } catch (ex) {
     console.error(`Unable to connect to MongoDB because ${ex.message}`);
@@ -605,113 +553,6 @@ async function main() {
 }
 
 main().catch(console.error);
-
-/*apiRouter.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  // Find the user by username
-  const user = users.find(u => u.username === username);
-
-  // Check if user exists and password matches
-  if (user && user.password === password) {
-    res.status(200).json({ message: 'Login successful' });
-  } else {
-    res.status(401).json({ message: 'Login failed' });
-  }
-});*/
-
-/*apiRouter.post('/login', (req, res) => {
-  const { username, password } = req.body;
-
-  if (username === staticUser.username && password === staticUser.password) {
-    res.status(200).json({ message: 'Login successful' });
-  } else {
-    res.status(401).json({ message: 'Login failed' });
-  }
-});*/
-
-/*apiRouter.post('/register', (req, res) => {
-  const { parentName, parentPhone, parentEmail, username, password, children } = req.body;
-
-  // Check if the user already exists
-  const existingUser = users.find(user => user.username === username);
-  if (existingUser) {
-    return res.status(409).json({ message: 'User already exists' });
-  }
-
-  // Create the new user with the provided class name and schedule
-  const newUser = {
-    id: `user-${users.length + 1}`,
-    parentName,
-    parentPhone,
-    parentEmail,
-    username,
-    password, // Hash this in production
-    childName: children[0].childName,
-    childBirthdate: children[0].childBirthdate,
-    age: calculateAge(children[0].childBirthdate),
-    className: children[0].className, // Take class name from the request
-    classSchedule: children[0].classSchedule, // Take class schedule from the request
-  };
-
-  users.push(newUser);
-  res.status(201).json({ message: 'Registration successful' });
-});*/
-
-/*apiRouter.get('/user', (req, res) => {
-  const { username } = req.query;
-
-  const user = users.find(u => u.username === username);
-
-  if (user) {
-    // Calculate class and schedule based on child's birthdate
-    const { className, classSchedule } = getClassAndSchedule(user.childBirthdate);
-
-    // Prepare the response without the password
-    const response = {
-      ...user,
-      className, // This should match the property name expected on the client
-      classSchedule,
-    };
-    delete response.password; // Remove the password for security
-
-    res.json(response);
-  } else {
-    res.status(404).json({ message: 'User not found' });
-  }
-});*/
-
-/*apiRouter.put('/user/update', (req, res) => {
-  const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
-  
-  const userIndex = users.findIndex(u => u.username === username);
-  if (userIndex === -1) {
-    return res.status(404).json({ message: 'User not found' });
-  }
-
-  // Update user information
-  users[userIndex] = { ...users[userIndex], parentName, childName, childBirthdate, parentPhone, parentEmail, password, className, classSchedule };
-  
-  res.json({ message: 'User information updated successfully' });
-});*/
-
-/*apiRouter.get('/classes', (req, res) => {
-  try {
-    const detailedClasses = classes.map(cl => {
-      const studentsDetails = cl.studentNames.map(studentName => {
-        const student = users.find(u => u.childName === studentName);
-        return student || { childName: studentName };
-      });
-
-      return { ...cl, students: studentsDetails }; // Attach student details
-    });
-
-    res.json(detailedClasses);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ message: 'Server error' });
-  }
-});*/
 
 // Start the server
 app.listen(PORT, () => {
