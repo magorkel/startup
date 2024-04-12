@@ -1,7 +1,47 @@
-// student-info.js
-
 // Function to parse query parameters from the URL
 function getQueryParams() {
+    const params = new URLSearchParams(window.location.search);
+    return params.get('username'); // Get the username from the query string
+}
+
+// Function to fetch and display the student's information using childName
+function fetchStudentInfo(childName) {
+    fetch(`/api/user?childName=${encodeURIComponent(childName)}`)
+        .then(response => {
+            if (!response.ok) {
+                throw new Error('Failed to fetch student information');
+            }
+            return response.json();
+        })
+        .then(userInfo => {
+            // Use userInfo to populate the student's information on the page
+            document.getElementById('studentName').textContent = userInfo.childName || 'Name not provided';
+            document.getElementById('parentName').textContent = userInfo.parentName || 'Parent name not provided';
+            document.getElementById('parentPhone').textContent = userInfo.parentPhone || 'Phone not provided';
+            document.getElementById('parentEmail').textContent = userInfo.parentEmail || 'Email not provided';
+            document.getElementById('studentClass').textContent = userInfo.className || 'Class not provided';
+            document.getElementById('classTime').textContent = userInfo.classSchedule || 'Schedule not provided';
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            // Handle the error, possibly by showing an error message to the user
+        });
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    // Get the child's name from the URL query string
+    const params = new URLSearchParams(window.location.search);
+    const childName = params.get('childName');
+    if (childName) {
+        fetchStudentInfo(childName); // Fetch and display the student's info if a childName was provided
+    } else {
+        console.log('No child name provided in the URL');
+        // Optionally, handle this case more gracefully, such as redirecting to an error page or displaying a message
+    }
+});
+
+// Function to parse query parameters from the URL
+/*function getQueryParams() {
   const params = new URLSearchParams(window.location.search);
   return params.get('id'); // Get the student ID from the query string
 }
@@ -38,7 +78,7 @@ document.addEventListener('DOMContentLoaded', () => {
       console.log('No student ID provided in the URL');
       // Optionally, handle this case more gracefully, such as redirecting to an error page or displaying a message
   }
-});
+});*/
 
 
 /*document.addEventListener('DOMContentLoaded', () => {

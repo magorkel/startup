@@ -23,13 +23,13 @@ document.addEventListener('DOMContentLoaded', () => {
                     classTimes.textContent = `Times: ${cl.times}`;
 
                     const studentList = document.createElement('ul');
-                    cl.studentNames.forEach(studentName => {
+                    cl.students.forEach(student => {
                         const studentItem = document.createElement('li');
                         const studentLink = document.createElement('a');
-                        studentLink.href = `student-info.html?studentName=${encodeURIComponent(studentName)}`; // Set href to student info page with query parameter
-                        studentLink.textContent = studentName;
+                        studentLink.href = `student-info.html?childName=${encodeURIComponent(student.childName)}`;
+                        studentLink.textContent = student.childName; // Change 'studentName' to 'childName'
                         studentLink.className = "student-link"; // Optional: for styling purposes
-
+                    
                         studentItem.appendChild(studentLink);
                         studentList.appendChild(studentItem);
                     });

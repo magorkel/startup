@@ -141,6 +141,136 @@ let users = [
     age: calculateAge('2014-07-19'),
     className: getClassAndSchedule('2014-07-19').className,
     classSchedule: getClassAndSchedule('2014-07-19').classSchedule,
+  },
+  {
+    id: 'user-009',
+    parentName: 'Alice Green',
+    parentPhone: '555-123-4567',
+    parentEmail: 'alice.green@example.com',
+    username: 'AliceG',
+    password: 'password9', 
+    childName: 'Grace Green',
+    childBirthdate: '2019-06-15',
+    age: calculateAge('2019-06-15'),
+    className: getClassAndSchedule('2019-06-15').className,
+    classSchedule: getClassAndSchedule('2019-06-15').classSchedule,
+  },
+  {
+    id: 'user-010',
+    parentName: 'Bob Gray',
+    parentPhone: '555-234-5678',
+    parentEmail: 'bob.gray@example.com',
+    username: 'BobG',
+    password: 'password10', 
+    childName: 'Gavin Gray',
+    childBirthdate: '2020-02-20',
+    age: calculateAge('2020-02-20'),
+    className: getClassAndSchedule('2020-02-20').className,
+    classSchedule: getClassAndSchedule('2020-02-20').classSchedule,
+  },
+  {
+    id: 'user-011',
+    parentName: 'Carol White',
+    parentPhone: '555-345-6789',
+    parentEmail: 'carol.white@example.com',
+    username: 'CarolW',
+    password: 'password11', 
+    childName: 'Willow White',
+    childBirthdate: '2018-08-08',
+    age: calculateAge('2018-08-08'),
+    className: getClassAndSchedule('2018-08-08').className,
+    classSchedule: getClassAndSchedule('2018-08-08').classSchedule,
+  },
+  {
+    id: 'user-012',
+    parentName: 'David King',
+    parentPhone: '555-456-7890',
+    parentEmail: 'david.king@example.com',
+    username: 'DavidK',
+    password: 'password12', 
+    childName: 'Kylie King',
+    childBirthdate: '2019-12-01',
+    age: calculateAge('2019-12-01'),
+    className: getClassAndSchedule('2019-12-01').className,
+    classSchedule: getClassAndSchedule('2019-12-01').classSchedule,
+  },
+  {
+    id: 'user-013',
+    parentName: 'Evelyn Knight',
+    parentPhone: '555-567-8901',
+    parentEmail: 'evelyn.knight@example.com',
+    username: 'EvelynK',
+    password: 'password13', 
+    childName: 'Kevin Knight',
+    childBirthdate: '2017-07-07',
+    age: calculateAge('2017-07-07'),
+    className: getClassAndSchedule('2017-07-07').className,
+    classSchedule: getClassAndSchedule('2017-07-07').classSchedule,
+  },
+  {
+    id: 'user-014',
+    parentName: 'Frank Lane',
+    parentPhone: '555-678-9012',
+    parentEmail: 'frank.lane@example.com',
+    username: 'FrankL',
+    password: 'password14', 
+    childName: 'Lara Lane',
+    childBirthdate: '2018-05-05',
+    age: calculateAge('2018-05-05'),
+    className: getClassAndSchedule('2018-05-05').className,
+    classSchedule: getClassAndSchedule('2018-05-05').classSchedule,
+  },
+  {
+    id: 'user-015',
+    parentName: 'Gina Fox',
+    parentPhone: '555-789-0123',
+    parentEmail: 'gina.fox@example.com',
+    username: 'GinaF',
+    password: 'password15', 
+    childName: 'Felix Fox',
+    childBirthdate: '2021-03-15', 
+    age: calculateAge('2021-03-15'),
+    className: getClassAndSchedule('2021-03-15').className,
+    classSchedule: getClassAndSchedule('2021-03-15').classSchedule,
+  },
+  {
+    id: 'user-016',
+    parentName: 'Henry Pond',
+    parentPhone: '555-890-1234',
+    parentEmail: 'henry.pond@example.com',
+    username: 'HenryP',
+    password: 'password16', 
+    childName: 'Penny Pond',
+    childBirthdate: '2017-11-11',
+    age: calculateAge('2017-11-11'),
+    className: getClassAndSchedule('2017-11-11').className,
+    classSchedule: getClassAndSchedule('2017-11-11').classSchedule,
+  },
+  {
+    id: 'user-017',
+    parentName: 'Ivy Hall',
+    parentPhone: '555-901-2345',
+    parentEmail: 'ivy.hall@example.com',
+    username: 'IvyH',
+    password: 'password17', 
+    childName: 'Hannah Hall',
+    childBirthdate: '2021-04-02', 
+    age: calculateAge('2021-04-02'),
+    className: getClassAndSchedule('2021-04-02').className,
+    classSchedule: getClassAndSchedule('2021-04-02').classSchedule,
+  },
+  {
+    id: 'user-018',
+    parentName: 'Jack Frost',
+    parentPhone: '555-012-3456',
+    parentEmail: 'jack.frost@example.com',
+    username: 'JackF',
+    password: 'password18', 
+    childName: 'Freddie Frost',
+    childBirthdate: '2021-03-21',
+    age: calculateAge('2021-03-21'),
+    className: getClassAndSchedule('2021-03-21').className,
+    classSchedule: getClassAndSchedule('2021-03-21').classSchedule,
   }
 ];
 
@@ -148,17 +278,32 @@ let classes = [
   {
     name: "Creative Movement",
     times: "Mondays 3:00-3:25 pm",
-    studentNames: ["Liam Johnson", "Charlotte Brown"] // Example names based on the simplified users structure
+    studentNames: ["Grace Green", "Felix Fox", "Hannah Hall", "Freddie Frost"] 
   },
   {
     name: "Creative Ballet",
     times: "Mondays and Wednesdays 3:30-4:00 pm",
-    studentNames: ["Jonny Doe", "Sophia Brown", "Amelia Wilson"] // Adjusted to match user data
+    studentNames: ["Gavin Gray", "Willow White", "Kylie King", "Lara Lane"] 
   },
   {
     name: "Pre-Ballet",
     times: "Mondays and Wednesdays 4:00-4:45 pm",
-    studentNames: ["Kyle Taylor", "Mason Miller", "Oliver Smith"] // Adjusted to match user data
+    studentNames: ["Kevin Knight", "Penny Pond"] 
+  },
+  {
+    name: "Level 1",
+    times: "Mondays and Wednesdays 4:45-5:45 pm",
+    studentNames: ["Kyle Taylor", "Liam Johnson", "Oliver Smith", "Charlotte Brown"] 
+  },
+  {
+    name: "Level 2",
+    times: "Mondays, Wednesdays and Fridays 5:45-7:00 pm",
+    studentNames: ["Sophia Brown"] 
+  },
+  {
+    name: "Level 3",
+    times: "Mondays, Wednesdays and Fridays 7:00-8:30 pm",
+    studentNames: ["Jonny Doe", "Amelia Wilson", "Mason Miller"] 
   }
 ];
 
@@ -245,6 +390,51 @@ async function main() {
     });
 
     apiRouter.get('/user', async (req, res) => {
+      try {
+        // Ensure connection to the database is established
+        await client.connect();
+        const db = client.db('BalletInfo');
+        const usersCollection = db.collection('users');
+        let user;
+    
+        if (req.query.username) {
+          // Search by username if the username parameter is present
+          user = await usersCollection.findOne({ username: req.query.username });
+        } else if (req.query.childName) {
+          // Search by childName if the childName parameter is present
+          user = await usersCollection.findOne({ childName: req.query.childName });
+        } else {
+          // If neither parameter is provided, return an error
+          return res.status(400).json({ message: 'No search parameter provided' });
+        }
+        
+        if (user) {
+          const response = {
+            parentName: user.parentName,
+            parentPhone: user.parentPhone,
+            parentEmail: user.parentEmail,
+            username: user.username,
+            childName: user.childName,
+            childBirthdate: user.childBirthdate,
+            age: user.age,
+            className: user.className, 
+            classSchedule: user.classSchedule,
+          };
+          res.json(response);
+        } else {
+          res.status(404).json({ message: 'User not found' });
+        }
+      } catch (error) {
+        console.error(error);
+        res.status(500).json({ message: 'Server error' });
+      } finally {
+        // Consider using a persistent connection instead of connecting on each request
+        // If not, close the connection
+        //await client.close();
+      }
+    });
+    
+    /*apiRouter.get('/user', async (req, res) => {
       const { username } = req.query;
     
       try {
@@ -272,7 +462,7 @@ async function main() {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
       }
-    });    
+    });*/    
 
     /*apiRouter.put('/user/update', async (req, res) => {
       const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
@@ -381,7 +571,31 @@ async function main() {
           res.status(500).json({ message: 'Server error' });
       }
     });
-    
+
+    apiRouter.get('/student', async (req, res) => {
+      const { username } = req.query;
+  
+      try {
+          const student = await client.db('BalletInfo').collection('users').findOne({ username: username });
+          if (student) {
+              const studentDetails = {
+                  childName: student.childName,
+                  parentName: student.parentName,
+                  parentPhone: student.parentPhone,
+                  parentEmail: student.parentEmail,
+                  className: student.className,
+                  classSchedule: student.classSchedule
+              };
+              res.json(studentDetails);
+          } else {
+              res.status(404).json({ message: 'Student not found' });
+          }
+      } catch (error) {
+          console.error('Error fetching student information:', error);
+          res.status(500).json({ message: 'Server error' });
+      }
+    });
+  
     // ... and so on for each route that needs to interact with the database
 
   } catch (ex) {
