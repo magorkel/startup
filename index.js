@@ -202,25 +202,21 @@ async function main() {
       const { parentName, parentPhone, parentEmail, username, password, childName, childBirthdate } = req.body;
 
       try {
-        // Check if the user already exists
         const existingUser = await usersCollection.findOne({ username: username });
         if (existingUser) {
           return res.status(409).json({ message: 'User already exists' });
         }
 
-        // Calculate the child's age
         const age = calculateAge(childBirthdate);
 
-        // Get the class and schedule based on the child's age
         const { className, classSchedule } = getClassAndSchedule(childBirthdate);
 
-        // Create the new user with the provided information
         const newUser = {
           parentName,
           parentPhone,
           parentEmail,
           username,
-          password, // You should hash this password before inserting it
+          password, 
           childName,
           childBirthdate,
           age,
@@ -228,7 +224,6 @@ async function main() {
           classSchedule
         };
 
-        // Insert the new user into the database
         await usersCollection.insertOne(newUser);
         res.status(201).json({ message: 'Registration successful' });
       } catch (error) {
@@ -241,14 +236,10 @@ async function main() {
       const { username } = req.query;
     
       try {
-        // Query the MongoDB database for the user
         const user = await usersCollection.findOne({ username: username });
     
         if (user) {
-          // Calculate class and schedule based on child's birthdate
-          //const { className, classSchedule } = getClassAndSchedule(user.childBirthdate);
-    
-          // Prepare the response without the password and other sensitive information
+
           const response = {
             parentName: user.parentName,
             parentPhone: user.parentPhone,
@@ -257,7 +248,7 @@ async function main() {
             childName: user.childName,
             childBirthdate: user.childBirthdate,
             age: user.age,
-            className: user.className, // Make sure these fields exist in your MongoDB document
+            className: user.className, 
             classSchedule: user.classSchedule,
           };
     
@@ -271,6 +262,79 @@ async function main() {
       }
     });    
 
+    /*apiRouter.put('/user/update', async (req, res) => {
+      const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
+      
+      try {
+        const result = await usersCollection.updateOne(
+          { username: username },
+          { $set: { parentName, childName, childBirthdate, parentPhone, parentEmail, password, className, classSchedule } }
+        );
+    
+        if (result.modifiedCount === 0) {
+          throw new Error('No document found with this username or no changes to update.');
+        }
+    
+        res.status(200).send({message: 'User information updated successfully'})
+      } catch (error) {
+        console.error('Update error:', error);
+        res.status(500).json({ message: 'Failed to update user information' });
+      }
+    });*/
+
+    apiRouter.put('/user/update', async (req, res) => {
+      const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
+      
+      try {
+          // Retrieve the existing user
+          const oldUser = await usersCollection.findOne({ username });
+          if (!oldUser) {
+              return res.status(404).json({ message: 'User not found' });
+          }
+  
+          // Prepare the update object
+          let updateData = {
+              parentName, 
+              childName, 
+              childBirthdate, 
+              parentPhone, 
+              parentEmail,
+              className, 
+              classSchedule
+          };
+  
+          // Only include the password in the update if it is provided and not empty
+          if (password && password.trim() !== '') {
+              updateData.password = password;
+          }
+  
+          // Calculate new class details if childBirthdate is updated
+          if (childBirthdate && childBirthdate !== oldUser.childBirthdate) {
+              const { className: newClassName, classSchedule: newClassSchedule } = getClassAndSchedule(childBirthdate);
+              updateData.className = newClassName;
+              updateData.classSchedule = newClassSchedule;
+  
+              // If class has changed, update classes collection
+              if (oldUser.className !== newClassName) {
+                  await classesCollection.updateOne({ name: oldUser.className }, { $pull: { studentNames: oldUser.childName } });
+                  await classesCollection.updateOne({ name: newClassName }, { $addToSet: { studentNames: childName } });
+              }
+          }
+  
+          // Update the user in the database
+          const result = await usersCollection.updateOne({ username: username }, { $set: updateData });
+          if (result.modifiedCount === 0) {
+              throw new Error('No changes to update.');
+          }
+  
+          res.status(200).json({ message: 'User information updated successfully' });
+      } catch (error) {
+          console.error('Update error:', error);
+          res.status(500).json({ message: 'Failed to update user information' });
+      }
+  });
+  
+    
     // ... and so on for each route that needs to interact with the database
 
   } catch (ex) {
@@ -356,8 +420,7 @@ main().catch(console.error);
   }
 });*/
 
-
-apiRouter.put('/user/update', (req, res) => {
+/*apiRouter.put('/user/update', (req, res) => {
   const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
   
   const userIndex = users.findIndex(u => u.username === username);
@@ -369,7 +432,7 @@ apiRouter.put('/user/update', (req, res) => {
   users[userIndex] = { ...users[userIndex], parentName, childName, childBirthdate, parentPhone, parentEmail, password, className, classSchedule };
   
   res.json({ message: 'User information updated successfully' });
-});
+});*/
 
 apiRouter.get('/classes', (req, res) => {
   try {

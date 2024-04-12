@@ -38,16 +38,17 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 function formatDate(dateString) {
-    const options = { year: 'numeric', month: 'long', day: 'numeric' };
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, options);
+    // Split the date string into parts
+    const [year, month, day] = dateString.split('-').map(part => parseInt(part, 10));
+
+    // Create a new date object using local time
+    const date = new Date(year, month - 1, day);
+
+    // Format the date as "Month Day, Year" in local time
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
 }
 
 
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    return date.toLocaleDateString(undefined, { year: 'numeric', month: 'long', day: 'numeric' });
-}
 
 function calculateAge(birthdate) {
     const birthDate = new Date(birthdate);

@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', () => {
             body: JSON.stringify({ username: username, password: password }),
         })
         .then(response => {
+            console.log(response);
             if (response.ok) { // Checks if the status code is 2xx
                 localStorage.setItem('currentUsername', username); // Store username upon successful login
                 window.location.href = 'home.html'; // Redirect to home page
