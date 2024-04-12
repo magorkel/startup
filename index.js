@@ -1,5 +1,6 @@
 const express = require('express');
-const cors = require('cors'); 
+const cors = require('cors');
+const cookieParser = require('cookie-parser');
 const { MongoClient } = require('mongodb');
 const config = require('./dbConfig.json');
 const app = express();
@@ -7,7 +8,7 @@ const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
 
 const allowedOrigins = [
   'http://localhost:3000',
-  'http://localhost:4000', 
+  'http://localhost:4000',
   'https://startup.ballet260.click',
 ];
 
@@ -22,29 +23,35 @@ const corsOptions = {
   credentials: true,
 };
 
-// Enable pre-flight requests for all routes
+app.use(cors(corsOptions));
 app.options('*', cors(corsOptions));
 
-// Use cors middleware with the above options
-app.use(cors(corsOptions));
+app.use(express.json());
+app.use(cookieParser());
 
 app.use(express.static('public'));
-
-app.use(express.json());
 
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
 
-const client = new MongoClient(`mongodb+srv://${config.userName}:${config.password}@${config.hostname}`);
+const client = new MongoClient(
+  `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`
+);
 
 let users = [
+  {
+    id: 'admin',
+    parentName: 'Harley',
+    username: 'Harley',
+    password: '45738',
+  },
   {
     id: 'user-001',
     parentName: 'Jane Doe',
     parentPhone: '123-456-7890',
     parentEmail: 'jane.doe@example.com',
     username: 'Jane',
-    password: '123', 
+    password: '123',
     childName: 'Jonny Doe',
     childBirthdate: '2012-01-01',
     age: calculateAge('2012-01-01'),
@@ -57,7 +64,7 @@ let users = [
     parentPhone: '321-654-0987',
     parentEmail: 'ethan.taylor@example.com',
     username: 'EthanT',
-    password: '456', 
+    password: '456',
     childName: 'Kyle Taylor',
     childBirthdate: '2014-05-21',
     age: calculateAge('2014-05-21'),
@@ -70,7 +77,7 @@ let users = [
     parentPhone: '456-123-4567',
     parentEmail: 'olivia.brown@example.com',
     username: 'OliviaB',
-    password: 'securePassword3', 
+    password: 'securePassword3',
     childName: 'Sophia Brown',
     childBirthdate: '2013-08-30',
     age: calculateAge('2013-08-30'),
@@ -83,7 +90,7 @@ let users = [
     parentPhone: '789-456-1230',
     parentEmail: 'michael.johnson@example.com',
     username: 'MichaelJ',
-    password: 'securePassword4', 
+    password: 'securePassword4',
     childName: 'Liam Johnson',
     childBirthdate: '2015-09-15',
     age: calculateAge('2015-09-15'),
@@ -96,7 +103,7 @@ let users = [
     parentPhone: '123-789-4561',
     parentEmail: 'emma.wilson@example.com',
     username: 'EmmaW',
-    password: 'securePassword5', 
+    password: 'securePassword5',
     childName: 'Amelia Wilson',
     childBirthdate: '2011-04-18',
     age: calculateAge('2011-04-18'),
@@ -109,7 +116,7 @@ let users = [
     parentPhone: '654-321-9870',
     parentEmail: 'noah.miller@example.com',
     username: 'NoahM',
-    password: 'securePassword6', 
+    password: 'securePassword6',
     childName: 'Mason Miller',
     childBirthdate: '2012-03-17',
     age: calculateAge('2012-03-17'),
@@ -122,7 +129,7 @@ let users = [
     parentPhone: '987-654-3210',
     parentEmail: 'ava.smith@example.com',
     username: 'AvaS',
-    password: 'securePassword7', 
+    password: 'securePassword7',
     childName: 'Oliver Smith',
     childBirthdate: '2013-05-22',
     age: calculateAge('2014-07-19'),
@@ -135,7 +142,7 @@ let users = [
     parentPhone: '321-987-6543',
     parentEmail: 'william.brown@example.com',
     username: 'WilliamB',
-    password: 'securePassword8', 
+    password: 'securePassword8',
     childName: 'Charlotte Brown',
     childBirthdate: '2014-07-19',
     age: calculateAge('2014-07-19'),
@@ -148,7 +155,7 @@ let users = [
     parentPhone: '555-123-4567',
     parentEmail: 'alice.green@example.com',
     username: 'AliceG',
-    password: 'password9', 
+    password: 'password9',
     childName: 'Grace Green',
     childBirthdate: '2019-06-15',
     age: calculateAge('2019-06-15'),
@@ -161,7 +168,7 @@ let users = [
     parentPhone: '555-234-5678',
     parentEmail: 'bob.gray@example.com',
     username: 'BobG',
-    password: 'password10', 
+    password: 'password10',
     childName: 'Gavin Gray',
     childBirthdate: '2020-02-20',
     age: calculateAge('2020-02-20'),
@@ -174,7 +181,7 @@ let users = [
     parentPhone: '555-345-6789',
     parentEmail: 'carol.white@example.com',
     username: 'CarolW',
-    password: 'password11', 
+    password: 'password11',
     childName: 'Willow White',
     childBirthdate: '2018-08-08',
     age: calculateAge('2018-08-08'),
@@ -187,7 +194,7 @@ let users = [
     parentPhone: '555-456-7890',
     parentEmail: 'david.king@example.com',
     username: 'DavidK',
-    password: 'password12', 
+    password: 'password12',
     childName: 'Kylie King',
     childBirthdate: '2019-12-01',
     age: calculateAge('2019-12-01'),
@@ -200,7 +207,7 @@ let users = [
     parentPhone: '555-567-8901',
     parentEmail: 'evelyn.knight@example.com',
     username: 'EvelynK',
-    password: 'password13', 
+    password: 'password13',
     childName: 'Kevin Knight',
     childBirthdate: '2017-07-07',
     age: calculateAge('2017-07-07'),
@@ -213,7 +220,7 @@ let users = [
     parentPhone: '555-678-9012',
     parentEmail: 'frank.lane@example.com',
     username: 'FrankL',
-    password: 'password14', 
+    password: 'password14',
     childName: 'Lara Lane',
     childBirthdate: '2018-05-05',
     age: calculateAge('2018-05-05'),
@@ -226,9 +233,9 @@ let users = [
     parentPhone: '555-789-0123',
     parentEmail: 'gina.fox@example.com',
     username: 'GinaF',
-    password: 'password15', 
+    password: 'password15',
     childName: 'Felix Fox',
-    childBirthdate: '2021-03-15', 
+    childBirthdate: '2021-03-15',
     age: calculateAge('2021-03-15'),
     className: getClassAndSchedule('2021-03-15').className,
     classSchedule: getClassAndSchedule('2021-03-15').classSchedule,
@@ -239,7 +246,7 @@ let users = [
     parentPhone: '555-890-1234',
     parentEmail: 'henry.pond@example.com',
     username: 'HenryP',
-    password: 'password16', 
+    password: 'password16',
     childName: 'Penny Pond',
     childBirthdate: '2017-11-11',
     age: calculateAge('2017-11-11'),
@@ -252,9 +259,9 @@ let users = [
     parentPhone: '555-901-2345',
     parentEmail: 'ivy.hall@example.com',
     username: 'IvyH',
-    password: 'password17', 
+    password: 'password17',
     childName: 'Hannah Hall',
-    childBirthdate: '2021-04-02', 
+    childBirthdate: '2021-04-02',
     age: calculateAge('2021-04-02'),
     className: getClassAndSchedule('2021-04-02').className,
     classSchedule: getClassAndSchedule('2021-04-02').classSchedule,
@@ -265,54 +272,59 @@ let users = [
     parentPhone: '555-012-3456',
     parentEmail: 'jack.frost@example.com',
     username: 'JackF',
-    password: 'password18', 
+    password: 'password18',
     childName: 'Freddie Frost',
     childBirthdate: '2021-03-21',
     age: calculateAge('2021-03-21'),
     className: getClassAndSchedule('2021-03-21').className,
     classSchedule: getClassAndSchedule('2021-03-21').classSchedule,
-  }
+  },
 ];
 
 let classes = [
   {
-    name: "Creative Movement",
-    times: "Mondays 3:00-3:25 pm",
-    studentNames: ["Grace Green", "Felix Fox", "Hannah Hall", "Freddie Frost"] 
+    name: 'Creative Movement',
+    times: 'Mondays 3:00-3:25 pm',
+    studentNames: ['Grace Green', 'Felix Fox', 'Hannah Hall', 'Freddie Frost'],
   },
   {
-    name: "Creative Ballet",
-    times: "Mondays and Wednesdays 3:30-4:00 pm",
-    studentNames: ["Gavin Gray", "Willow White", "Kylie King", "Lara Lane"] 
+    name: 'Creative Ballet',
+    times: 'Mondays and Wednesdays 3:30-4:00 pm',
+    studentNames: ['Gavin Gray', 'Willow White', 'Kylie King', 'Lara Lane'],
   },
   {
-    name: "Pre-Ballet",
-    times: "Mondays and Wednesdays 4:00-4:45 pm",
-    studentNames: ["Kevin Knight", "Penny Pond"] 
+    name: 'Pre-Ballet',
+    times: 'Mondays and Wednesdays 4:00-4:45 pm',
+    studentNames: ['Kevin Knight', 'Penny Pond'],
   },
   {
-    name: "Level 1",
-    times: "Mondays and Wednesdays 4:45-5:45 pm",
-    studentNames: ["Kyle Taylor", "Liam Johnson", "Oliver Smith", "Charlotte Brown"] 
+    name: 'Level 1',
+    times: 'Mondays and Wednesdays 4:45-5:45 pm',
+    studentNames: [
+      'Kyle Taylor',
+      'Liam Johnson',
+      'Oliver Smith',
+      'Charlotte Brown',
+    ],
   },
   {
-    name: "Level 2",
-    times: "Mondays, Wednesdays and Fridays 5:45-7:00 pm",
-    studentNames: ["Sophia Brown"] 
+    name: 'Level 2',
+    times: 'Mondays, Wednesdays and Fridays 5:45-7:00 pm',
+    studentNames: ['Sophia Brown'],
   },
   {
-    name: "Level 3",
-    times: "Mondays, Wednesdays and Fridays 7:00-8:30 pm",
-    studentNames: ["Jonny Doe", "Amelia Wilson", "Mason Miller"] 
-  }
+    name: 'Level 3',
+    times: 'Mondays, Wednesdays and Fridays 7:00-8:30 pm',
+    studentNames: ['Jonny Doe', 'Amelia Wilson', 'Mason Miller'],
+  },
 ];
 
 async function main() {
   try {
     await client.connect();
     console.log('Connected to MongoDB');
-    
-    const db = client.db('BalletInfo'); 
+
+    const db = client.db('BalletInfo');
     const usersCollection = db.collection('users');
     const classesCollection = db.collection('classes');
 
@@ -344,48 +356,61 @@ async function main() {
     });*/
     apiRouter.post('/login', async (req, res) => {
       const { username, password } = req.body;
-    
-      // Separate check for the admin credentials
+
       if (username === 'Harley' && password === '45738') {
-        return res.status(200).json({ message: 'Login successful', isAdmin: true });
+        res.cookie('authToken', 'admin-special-token', {
+          httpOnly: true,
+          secure: true,
+        });
+        return res
+          .status(200)
+          .json({ message: 'Login successful', isAdmin: true });
       }
-    
-      // Proceed with regular user check
+
       const user = await usersCollection.findOne({ username });
-      
       if (user && user.password === password) {
+        res.cookie('authToken', 'user-token', { httpOnly: true, secure: true });
         res.status(200).json({ message: 'Login successful', isAdmin: false });
       } else {
         res.status(401).json({ message: 'Login failed' });
       }
     });
-    
-    
 
     apiRouter.post('/register', async (req, res) => {
-      const { parentName, parentPhone, parentEmail, username, password, childName, childBirthdate } = req.body;
+      const {
+        parentName,
+        parentPhone,
+        parentEmail,
+        username,
+        password,
+        childName,
+        childBirthdate,
+      } = req.body;
 
       try {
-        const existingUser = await usersCollection.findOne({ username: username });
+        const existingUser = await usersCollection.findOne({
+          username: username,
+        });
         if (existingUser) {
           return res.status(409).json({ message: 'User already exists' });
         }
 
         const age = calculateAge(childBirthdate);
 
-        const { className, classSchedule } = getClassAndSchedule(childBirthdate);
+        const { className, classSchedule } =
+          getClassAndSchedule(childBirthdate);
 
         const newUser = {
           parentName,
           parentPhone,
           parentEmail,
           username,
-          password, 
+          password,
           childName,
           childBirthdate,
           age,
           className,
-          classSchedule
+          classSchedule,
         };
 
         await usersCollection.insertOne(newUser);
@@ -393,7 +418,7 @@ async function main() {
         const updatedClass = await classesCollection.updateOne(
           { name: className },
           { $addToSet: { studentNames: childName } }
-          );
+        );
 
         if (updatedClass.matchedCount === 0) {
           console.error('No class found for this age group.');
@@ -415,18 +440,24 @@ async function main() {
         const db = client.db('BalletInfo');
         const usersCollection = db.collection('users');
         let user;
-    
+
         if (req.query.username) {
           // Search by username if the username parameter is present
-          user = await usersCollection.findOne({ username: req.query.username });
+          user = await usersCollection.findOne({
+            username: req.query.username,
+          });
         } else if (req.query.childName) {
           // Search by childName if the childName parameter is present
-          user = await usersCollection.findOne({ childName: req.query.childName });
+          user = await usersCollection.findOne({
+            childName: req.query.childName,
+          });
         } else {
           // If neither parameter is provided, return an error
-          return res.status(400).json({ message: 'No search parameter provided' });
+          return res
+            .status(400)
+            .json({ message: 'No search parameter provided' });
         }
-        
+
         if (user) {
           const response = {
             parentName: user.parentName,
@@ -436,7 +467,7 @@ async function main() {
             childName: user.childName,
             childBirthdate: user.childBirthdate,
             age: user.age,
-            className: user.className, 
+            className: user.className,
             classSchedule: user.classSchedule,
           };
           res.json(response);
@@ -452,119 +483,188 @@ async function main() {
         //await client.close();
       }
     });
-    
+
     apiRouter.put('/user/update', async (req, res) => {
-      const { parentName, childName, childBirthdate, parentPhone, parentEmail, username, password, className, classSchedule } = req.body;
-      
+      const {
+        parentName,
+        childName,
+        childBirthdate,
+        parentPhone,
+        parentEmail,
+        username,
+        password,
+        className,
+        classSchedule,
+      } = req.body;
+
       try {
-          // Retrieve the existing user
-          const oldUser = await usersCollection.findOne({ username });
-          if (!oldUser) {
-              return res.status(404).json({ message: 'User not found' });
+        // Retrieve the existing user
+        const oldUser = await usersCollection.findOne({ username });
+        if (!oldUser) {
+          return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Prepare the update object
+        let updateData = {
+          parentName,
+          childName,
+          childBirthdate,
+          parentPhone,
+          parentEmail,
+          className,
+          classSchedule,
+        };
+
+        // Only include the password in the update if it is provided and not empty
+        if (password && password.trim() !== '') {
+          updateData.password = password;
+        }
+
+        // Calculate new class details if childBirthdate is updated
+        if (childBirthdate && childBirthdate !== oldUser.childBirthdate) {
+          const { className: newClassName, classSchedule: newClassSchedule } =
+            getClassAndSchedule(childBirthdate);
+          updateData.className = newClassName;
+          updateData.classSchedule = newClassSchedule;
+
+          // If class has changed, update classes collection
+          if (oldUser.className !== newClassName) {
+            await classesCollection.updateOne(
+              { name: oldUser.className },
+              { $pull: { studentNames: oldUser.childName } }
+            );
+            await classesCollection.updateOne(
+              { name: newClassName },
+              { $addToSet: { studentNames: childName } }
+            );
           }
-  
-          // Prepare the update object
-          let updateData = {
-              parentName, 
-              childName, 
-              childBirthdate, 
-              parentPhone, 
-              parentEmail,
-              className, 
-              classSchedule
-          };
-  
-          // Only include the password in the update if it is provided and not empty
-          if (password && password.trim() !== '') {
-              updateData.password = password;
-          }
-  
-          // Calculate new class details if childBirthdate is updated
-          if (childBirthdate && childBirthdate !== oldUser.childBirthdate) {
-              const { className: newClassName, classSchedule: newClassSchedule } = getClassAndSchedule(childBirthdate);
-              updateData.className = newClassName;
-              updateData.classSchedule = newClassSchedule;
-  
-              // If class has changed, update classes collection
-              if (oldUser.className !== newClassName) {
-                  await classesCollection.updateOne({ name: oldUser.className }, { $pull: { studentNames: oldUser.childName } });
-                  await classesCollection.updateOne({ name: newClassName }, { $addToSet: { studentNames: childName } });
-              }
-          }
-  
-          // Update the user in the database
-          const result = await usersCollection.updateOne({ username: username }, { $set: updateData });
-          if (result.modifiedCount === 0) {
-              throw new Error('No changes to update.');
-          }
-  
-          res.status(200).json({ message: 'User information updated successfully' });
+        }
+
+        // Update the user in the database
+        const result = await usersCollection.updateOne(
+          { username: username },
+          { $set: updateData }
+        );
+        if (result.modifiedCount === 0) {
+          throw new Error('No changes to update.');
+        }
+
+        res
+          .status(200)
+          .json({ message: 'User information updated successfully' });
       } catch (error) {
-          console.error('Update error:', error);
-          res.status(500).json({ message: 'Failed to update user information' });
+        console.error('Update error:', error);
+        res.status(500).json({ message: 'Failed to update user information' });
       }
     });
-  
+
     apiRouter.get('/classes', async (req, res) => {
       try {
-          // Ensure connection to the database is established
-          await client.connect();
+        // Ensure connection to the database is established
+        await client.connect();
 
-          // Access the classes collection
-          const db = client.db('BalletInfo');
-          const classesCollection = db.collection('classes');
+        // Access the classes collection
+        const db = client.db('BalletInfo');
+        const classesCollection = db.collection('classes');
 
-          // Fetch all classes including the dynamically updated list of students
-          const classesData = await classesCollection.find({}).toArray();
+        // Fetch all classes including the dynamically updated list of students
+        const classesData = await classesCollection.find({}).toArray();
 
-          // Build detailed class data including linked student details
-          const detailedClasses = await Promise.all(classesData.map(async cl => {
-              const studentsDetails = await Promise.all(cl.studentNames.map(async studentName => {
-                  // Fetch each student's details
-                  const studentDetails = await db.collection('users').findOne({ childName: studentName });
-                  return studentDetails ? {
-                    childName: studentName,
-                    parentName: studentDetails.parentName,
-                    age: studentDetails.age,
-                    className: studentDetails.className,
-                    classSchedule: studentDetails.classSchedule
-                  } : { childName: studentName };
-              }));
+        // Build detailed class data including linked student details
+        const detailedClasses = await Promise.all(
+          classesData.map(async cl => {
+            const studentsDetails = await Promise.all(
+              cl.studentNames.map(async studentName => {
+                // Fetch each student's details
+                const studentDetails = await db
+                  .collection('users')
+                  .findOne({ childName: studentName });
+                return studentDetails
+                  ? {
+                      childName: studentName,
+                      parentName: studentDetails.parentName,
+                      age: studentDetails.age,
+                      className: studentDetails.className,
+                      classSchedule: studentDetails.classSchedule,
+                    }
+                  : { childName: studentName };
+              })
+            );
 
             return { ...cl, students: studentsDetails };
-          }));
+          })
+        );
 
-          res.json(detailedClasses);
+        res.json(detailedClasses);
       } catch (error) {
-          console.error('Failed to load classes:', error);
-          res.status(500).json({ message: 'Server error' });
+        console.error('Failed to load classes:', error);
+        res.status(500).json({ message: 'Server error' });
       }
     });
 
     apiRouter.get('/student', async (req, res) => {
       const { username } = req.query;
-  
+
       try {
-          const student = await client.db('BalletInfo').collection('users').findOne({ username: username });
-          if (student) {
-              const studentDetails = {
-                  childName: student.childName,
-                  parentName: student.parentName,
-                  parentPhone: student.parentPhone,
-                  parentEmail: student.parentEmail,
-                  className: student.className,
-                  classSchedule: student.classSchedule
-              };
-              res.json(studentDetails);
-          } else {
-              res.status(404).json({ message: 'Student not found' });
-          }
+        const student = await client
+          .db('BalletInfo')
+          .collection('users')
+          .findOne({ username: username });
+        if (student) {
+          const studentDetails = {
+            childName: student.childName,
+            parentName: student.parentName,
+            parentPhone: student.parentPhone,
+            parentEmail: student.parentEmail,
+            className: student.className,
+            classSchedule: student.classSchedule,
+          };
+          res.json(studentDetails);
+        } else {
+          res.status(404).json({ message: 'Student not found' });
+        }
       } catch (error) {
-          console.error('Error fetching student information:', error);
-          res.status(500).json({ message: 'Server error' });
+        console.error('Error fetching student information:', error);
+        res.status(500).json({ message: 'Server error' });
       }
     });
 
+    apiRouter.get('/check-admin', (req, res) => {
+      const authToken = req.cookies['authToken'];
+      // Example check, you would likely have more complex logic
+      if (authToken === 'admin-special-token') {
+        res.json({ isAdmin: true });
+      } else {
+        res.json({ isAdmin: false });
+      }
+    });
+
+    // Admin verification middleware
+    const verifyAdmin = async (req, res, next) => {
+      // Assuming you store session or token in cookies or authorization headers
+      const authToken = req.cookies['authToken'] || req.headers.authorization; // Adjust based on your auth strategy
+
+      // Example validation (you should have your own logic here, possibly checking a database)
+      if (authToken === 'admin-special-token') {
+        // Replace this with actual validation logic
+        next();
+      } else {
+        res.status(401).json({ message: 'Unauthorized: Access is denied' });
+      }
+    };
+
+    const secureApiRouter = express.Router();
+
+    // Use the verifyAdmin middleware for all routes in this router
+    secureApiRouter.use(verifyAdmin);
+
+    // Example of an admin-only route
+    secureApiRouter.get('/admin-dashboard', (req, res) => {
+      res.send('Admin Dashboard - Access Granted');
+    });
+
+    // Attach the secureApiRouter to your main API router
+    apiRouter.use('/admin', secureApiRouter);
   } catch (ex) {
     console.error(`Unable to connect to MongoDB because ${ex.message}`);
     process.exit(1);
@@ -599,29 +699,29 @@ function getClassAndSchedule(childBirthdate) {
   let classSchedule = '';
 
   if (age === 3) {
-      className = 'Creative Movement';
-      classSchedule = 'Mondays 3:00-3:25 pm';
+    className = 'Creative Movement';
+    classSchedule = 'Mondays 3:00-3:25 pm';
   } else if (age >= 4 && age <= 5) {
-      className = 'Creative Ballet';
-      classSchedule = 'Mondays and Wednesdays 3:30-4:00 pm';
+    className = 'Creative Ballet';
+    classSchedule = 'Mondays and Wednesdays 3:30-4:00 pm';
   } else if (age >= 6 && age <= 7) {
-      className = 'Pre-Ballet';
-      classSchedule = 'Mondays and Wednesdays 4:00-4:45 pm';
+    className = 'Pre-Ballet';
+    classSchedule = 'Mondays and Wednesdays 4:00-4:45 pm';
   } else if (age >= 8 && age <= 9) {
-      className = 'Level 1';
-      classSchedule = 'Mondays and Wednesdays 4:45-5:45 pm';
+    className = 'Level 1';
+    classSchedule = 'Mondays and Wednesdays 4:45-5:45 pm';
   } else if (age >= 10 && age <= 11) {
-      className = 'Level 2';
-      classSchedule = 'Mondays, Wednesdays and Fridays 5:45-7:00 pm';
+    className = 'Level 2';
+    classSchedule = 'Mondays, Wednesdays and Fridays 5:45-7:00 pm';
   } else if (age >= 12 && age <= 14) {
-      className = 'Level 3';
-      classSchedule = 'Mondays, Wednesdays and Fridays 7:00-8:30 pm';
+    className = 'Level 3';
+    classSchedule = 'Mondays, Wednesdays and Fridays 7:00-8:30 pm';
   } else if (age >= 15 && age <= 16) {
-      className = 'Level 4';
-      classSchedule = 'Tuesdays, Thursdays and Fridays 5:30-7:00 pm';
+    className = 'Level 4';
+    classSchedule = 'Tuesdays, Thursdays and Fridays 5:30-7:00 pm';
   } else {
-      className = 'Not available';
-      classSchedule = 'Please contact us for more information.';
+    className = 'Not available';
+    classSchedule = 'Please contact us for more information.';
   }
 
   return { className, classSchedule };
@@ -631,45 +731,45 @@ const fetch = require('node-fetch'); // Import the fetch function
 
 // Function to get a random quote from the Quotes API
 async function getRandomQuote(category) {
-    const url = `https://api.api-ninjas.com/v1/quotes?category=${category}`;
-    const apiKey = 'kgviXk1AtpGSROxD9Y7T8A==sU676LHiko112Yly'; // Replace with your actual X-Api-Key
+  const url = `https://api.api-ninjas.com/v1/quotes?category=${category}`;
+  const apiKey = 'kgviXk1AtpGSROxD9Y7T8A==sU676LHiko112Yly'; // Replace with your actual X-Api-Key
 
-    try {
-        const response = await fetch(url, {
-            method: 'GET',
-            headers: {
-                'X-Api-Key': apiKey
-            }
-        });
+  try {
+    const response = await fetch(url, {
+      method: 'GET',
+      headers: {
+        'X-Api-Key': apiKey,
+      },
+    });
 
-        if (!response.ok) {
-            throw new Error(`Error: ${response.status}`); // or handle error responses as needed
-        }
-
-        const data = await response.json();
-        return data; // This will be an array of quotes
-    } catch (error) {
-        console.error('Failed to fetch quote:', error);
+    if (!response.ok) {
+      throw new Error(`Error: ${response.status}`); // or handle error responses as needed
     }
+
+    const data = await response.json();
+    return data; // This will be an array of quotes
+  } catch (error) {
+    console.error('Failed to fetch quote:', error);
+  }
 }
 
 // Example usage of getRandomQuote()
 getRandomQuote('happiness').then(quotes => {
-    if (quotes && quotes.length > 0) {
-        console.log('Random Quote:', quotes[0].quote); // Log the first quote from the response
-    }
+  if (quotes && quotes.length > 0) {
+    console.log('Random Quote:', quotes[0].quote); // Log the first quote from the response
+  }
 });
 
 apiRouter.get('/random-quote', async (req, res) => {
   const category = req.query.category || 'happiness'; // Use 'happiness' as a default category if none is provided
   try {
-      const quotes = await getRandomQuote(category);
-      if (quotes && quotes.length > 0) {
-          res.json(quotes[0]); // Send the first quote from the response
-      } else {
-          res.status(404).json({ message: 'No quotes found' });
-      }
+    const quotes = await getRandomQuote(category);
+    if (quotes && quotes.length > 0) {
+      res.json(quotes[0]); // Send the first quote from the response
+    } else {
+      res.status(404).json({ message: 'No quotes found' });
+    }
   } catch (error) {
-      res.status(500).json({ message: error.message });
+    res.status(500).json({ message: error.message });
   }
 });

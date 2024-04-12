@@ -1,47 +1,46 @@
 document.addEventListener('DOMContentLoaded', () => {
+  document.getElementById('loginForm').addEventListener('submit', function (e) {
+    e.preventDefault();
 
-    document.getElementById('loginForm').addEventListener('submit', function(e) {
-        e.preventDefault();
-      
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-        if (username === "" || password === "") {
-            alert('Both username and password are required to log in.');
-            return;
+    if (username === '' || password === '') {
+      alert('Both username and password are required to log in.');
+      return;
+    }
+
+    fetch(`/api/login`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      credentials: 'include',
+      body: JSON.stringify({ username: username, password: password }),
+    })
+      .then(response => response.json()) // Convert response to JSON
+      .then(data => {
+        if (data.message === 'Login successful') {
+          // Store username and isAdmin flag
+          localStorage.setItem('currentUsername', username);
+          //localStorage.setItem('isAdmin', data.isAdmin);
+
+          // Redirect based on whether the user is admin
+          if (data.isAdmin) {
+            localStorage.setItem('isAdmin', data.isAdmin);
+            window.location.href = 'admin-dashboard.html';
+          } else {
+            window.location.href = 'home.html';
+          }
+        } else {
+          alert('Invalid Login');
         }
-
-        fetch(`/api/login`, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ username: username, password: password }),
-        })
-        .then(response => response.json()) // Convert response to JSON
-        .then(data => {
-            if (data.message === 'Login successful') {
-                // Store username and isAdmin flag
-                localStorage.setItem('currentUsername', username);
-                //localStorage.setItem('isAdmin', data.isAdmin);
-                
-                // Redirect based on whether the user is admin
-                if (data.isAdmin) {
-                    localStorage.setItem('isAdmin', data.isAdmin);
-                    window.location.href = 'admin-dashboard.html';
-                } else {
-                    window.location.href = 'home.html';
-                }
-            } else {
-                alert('Invalid Login');
-            }
-        })
-        .catch(error => {
-            console.error('Error:', error);
-        });
+      })
+      .catch(error => {
+        console.error('Error:', error);
       });
+  });
 });
-
 
 /*const validUser = {
     parentName: 'John Doe', 
