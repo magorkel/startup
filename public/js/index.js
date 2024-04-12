@@ -18,19 +18,23 @@ document.addEventListener('DOMContentLoaded', () => {
             },
             body: JSON.stringify({ username: username, password: password }),
         })
-        .then(response => {
-            console.log(response);
-            if (response.ok) { // Checks if the status code is 2xx
-                localStorage.setItem('currentUsername', username); // Store username upon successful login
-                window.location.href = 'home.html'; // Redirect to home page
-                return response.json(); // We proceed to parse the JSON response
+        .then(response => response.json()) // Convert response to JSON
+        .then(data => {
+            if (data.message === 'Login successful') {
+                // Store username and isAdmin flag
+                localStorage.setItem('currentUsername', username);
+                //localStorage.setItem('isAdmin', data.isAdmin);
+                
+                // Redirect based on whether the user is admin
+                if (data.isAdmin) {
+                    localStorage.setItem('isAdmin', data.isAdmin);
+                    window.location.href = 'admin-dashboard.html';
+                } else {
+                    window.location.href = 'home.html';
+                }
             } else {
                 alert('Invalid Login');
-                throw new Error('Login failed'); // Throw an error to break the chain
             }
-        })
-        .then(data => {
-            console.log('Login Successful:', data.message); // Optionally log or handle the data/message
         })
         .catch(error => {
             console.error('Error:', error);
@@ -39,7 +43,7 @@ document.addEventListener('DOMContentLoaded', () => {
 });
 
 
-const validUser = {
+/*const validUser = {
     parentName: 'John Doe', 
     childName: 'Johnny Doe',
     childBirthdate: '2020-01-01',
@@ -53,4 +57,4 @@ const validUser = {
     };
     
     // Store user information in localStorage
-    localStorage.setItem('validUser', JSON.stringify(validUser));
+    localStorage.setItem('validUser', JSON.stringify(validUser));*/

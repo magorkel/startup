@@ -332,7 +332,7 @@ async function main() {
       console.log('Classes collection already initialized.');
     }
 
-    apiRouter.post('/login', async (req, res) => {
+    /*apiRouter.post('/login', async (req, res) => {
       const { username, password } = req.body;
       const user = await usersCollection.findOne({ username: username });
       
@@ -341,7 +341,26 @@ async function main() {
       } else {
         res.status(401).json({ message: 'Login failed' });
       }
+    });*/
+    apiRouter.post('/login', async (req, res) => {
+      const { username, password } = req.body;
+    
+      // Separate check for the admin credentials
+      if (username === 'Harley' && password === '45738') {
+        return res.status(200).json({ message: 'Login successful', isAdmin: true });
+      }
+    
+      // Proceed with regular user check
+      const user = await usersCollection.findOne({ username });
+      
+      if (user && user.password === password) {
+        res.status(200).json({ message: 'Login successful', isAdmin: false });
+      } else {
+        res.status(401).json({ message: 'Login failed' });
+      }
     });
+    
+    
 
     apiRouter.post('/register', async (req, res) => {
       const { parentName, parentPhone, parentEmail, username, password, childName, childBirthdate } = req.body;
