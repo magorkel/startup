@@ -66,6 +66,7 @@ document.addEventListener('DOMContentLoaded', () => {
         //loginUser(userDetails.username, userDetails.password);
       })
       .catch(error => {
+        console.log(data);
         console.error('Error during registration:', error);
         alert('Registration failed');
       });

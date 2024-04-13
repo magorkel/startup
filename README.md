@@ -163,3 +163,25 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
 - calls to 3rd party endpoints - this is the quote of the day found on the notices page
 - backend service endpoints - I have created several mock databases in my service side index.js that are accessable throughout my app using api calls
 - frontend calls service endpoints - this is used in all my fetch functions in all of my js files in public/js
+
+## Startup Login
+
+- Wow was this a whirlwind.
+
+- MongoDB Atlas created - I have a users and a classes database
+- Stores data in MongoDB - users are stored in the database and their information can be fetched, displayed and updated. Children are sorted into the appropriate classes in the classes database
+- User registration - new users can register and they will be added to the users DB. The child will be sorted into the correct class and added to the classes DB.
+- Existing user - the old users can login successfully and see all their information and even update it if needed.
+- Use MongoDB to store credentials - basically same as above? I can store user information, their updates, and sort them into classes
+- Restricts functionality - I have made an admin functionality so that the admin is the only one that can see all users information and the list of classes. A regular user can only see their own personal information
+
+- Login: username: Jane, password: 123
+
+  - this is just the basic one that I always used to log in real quick
+  - if you'd rather, you can totally register a new user
+  - access to the admin page will be restricted. If you click on it, it will just redirect you back to the home page. I wanted to remove the admin button, but that broke too many things for me to deal with at the moment.
+
+- Admin login: username: Harley, password: 45738
+  - login will take you right to the admin page
+  - access to home is restricted and will just send you back to the admin page
+  - if you registered a new user, you will be able to see the childs name pop up under their respective class and will be able to click on it to see their user information.
