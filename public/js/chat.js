@@ -3,6 +3,11 @@ document.addEventListener('DOMContentLoaded', () => {
   const inputMessage = document.querySelector('.input-message');
   const chatContainer = document.querySelector('.chat-container');
   const username = localStorage.getItem('currentUsername');
+  const isAdmin = username === 'admin';
+
+  // WebSocket connection
+  const protocol = isAdmin ? 'admin-special-token' : 'user-token'; // Token based on user role
+  const socket = new WebSocket(`ws://${location.host}`, protocol);
 
   // Check if the username exists in local storage
   if (!username) {
@@ -27,12 +32,63 @@ document.addEventListener('DOMContentLoaded', () => {
       // Consider redirecting to login page or showing an error message
     });
 
+  fetch('/api/chat/messages')
+    .then(async response => {
+      console.log('inside fetch');
+      console.log(response);
+      return await response.json();
+    })
+    .then(data => {
+      console.log(data);
+      data.messages.forEach(msg => {
+        const chatBubble = document.createElement('div');
+        chatBubble.classList.add(
+          'message',
+          msg.senderId === username ? 'user' : 'other'
+        );
+        chatBubble.textContent = msg.message;
+        chatContainer.appendChild(chatBubble);
+      });
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    })
+    .catch(error => console.error('Error loading chat history:', error));
+
+  socket.addEventListener('open', function (event) {
+    console.log('Connected to WebSocket server');
+  });
+
+  socket.addEventListener('message', function (event) {
+    try {
+      const data = JSON.parse(event.data);
+      const chatBubble = document.createElement('div');
+      chatBubble.classList.add(
+        'message',
+        data.from === username ? 'user' : 'other'
+      );
+      chatBubble.textContent = data.message;
+
+      chatContainer.appendChild(chatBubble);
+      chatContainer.scrollTop = chatContainer.scrollHeight;
+    } catch (e) {
+      console.error('Error parsing WebSocket message:', e);
+      // Handle non-JSON messages or show a fallback message
+    }
+  });
+
+  socket.addEventListener('close', function (event) {
+    console.log('Disconnected from WebSocket server');
+  });
+
+  socket.addEventListener('error', function (event) {
+    console.error('WebSocket error:', event);
+  });
+
   sendButton.addEventListener('click', () => {
     const messageText = inputMessage.value.trim();
 
     // Check if the message is not empty
     if (messageText) {
-      // Create a new chat bubble
+      socket.send(JSON.stringify({ message: messageText }));
       const chatBubble = document.createElement('div');
       chatBubble.classList.add('message', 'user');
       chatBubble.textContent = messageText;

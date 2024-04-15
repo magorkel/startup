@@ -3,7 +3,10 @@ const cors = require('cors');
 const cookieParser = require('cookie-parser');
 const { MongoClient } = require('mongodb');
 const config = require('./dbConfig.json');
+const { peerProxy } = require('./peerProxy');
+const http = require('http');
 const app = express();
+const server = http.createServer(app);
 const PORT = process.argv.length > 2 ? process.argv[2] : 4000;
 
 const allowedOrigins = [
@@ -33,6 +36,9 @@ app.use(express.static('public'));
 
 var apiRouter = express.Router();
 app.use(`/api`, apiRouter);
+
+const chatRouter = express.Router();
+apiRouter.use('/chat', chatRouter);
 
 const client = new MongoClient(
   `mongodb+srv://${config.userName}:${config.password}@${config.hostname}`
@@ -327,6 +333,7 @@ async function main() {
     const db = client.db('BalletInfo');
     const usersCollection = db.collection('users');
     const classesCollection = db.collection('classes');
+    const messagesCollection = db.collection('messages');
 
     const usersCount = await usersCollection.countDocuments();
     if (usersCount === 0) {
@@ -342,6 +349,21 @@ async function main() {
       console.log('Classes collection has been initialized.');
     } else {
       console.log('Classes collection already initialized.');
+    }
+
+    const messagesCount = await messagesCollection.countDocuments();
+    if (messagesCount === 0) {
+      await messagesCollection.insertOne({
+        senderId: 'admin',
+        targetId: 'user-001', // Replace with a default user ID if needed
+        message: 'Hello, how may I help you?',
+        timestamp: new Date(),
+      });
+      console.log(
+        'Messages collection has been initialized with a welcome message.'
+      );
+    } else {
+      console.log('Messages collection already has messages.');
     }
 
     /*apiRouter.post('/login', async (req, res) => {
@@ -673,10 +695,60 @@ async function main() {
 
 main().catch(console.error);
 
-// Start the server
-app.listen(PORT, () => {
+chatRouter.get('/messages', async (req, res) => {
+  await client.connect();
+  console.log('Connected to MongoDB');
+
+  const db = client.db('BalletInfo');
+  const messages = db.collection('messages');
+
+  try {
+    const allMessages = await messages.find({}).toArray();
+    const data = {
+      messages: allMessages,
+    };
+    console.log(allMessages);
+    res.json(data);
+  } catch (error) {
+    console.error('Failed to fetch messages:', error);
+    res.status(500).json({ message: 'Failed to fetch messages' });
+  }
+});
+
+chatRouter.post('/messages', async (req, res) => {
+  const { message, senderId, targetId } = req.body;
+
+  console.log('Received message:', req.body); // Log the message to see if it's received correctly.
+
+  try {
+    const db = await connectDB();
+    const messages = db.collection('messages');
+
+    await messages.insertOne({
+      senderId,
+      targetId,
+      message,
+      timestamp: new Date(),
+    });
+
+    console.log('Message saved to the database.'); // Log for successful save.
+    res.status(201).json({ message: 'Message saved' });
+  } catch (error) {
+    console.error('Failed to save message:', error); // Properly log the error.
+    res.status(500).json({ message: 'Failed to save message' });
+  }
+});
+
+peerProxy(server);
+
+server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
+
+// Start the server
+/*app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});*/
 
 app.use((_req, res) => {
   res.sendFile('index.html', { root: 'public' });
