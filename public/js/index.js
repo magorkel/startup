@@ -21,13 +21,15 @@ document.addEventListener('DOMContentLoaded', () => {
       .then(response => response.json()) // Convert response to JSON
       .then(data => {
         if (data.message === 'Login successful') {
-          // Store username and isAdmin flag
           localStorage.setItem('currentUsername', username);
-          //localStorage.setItem('isAdmin', data.isAdmin);
+          localStorage.setItem('isAdmin', data.isAdmin);
+          if (data.userId) {
+            // assuming that the backend would send a userId
+            localStorage.setItem('currentUserId', data.userId);
+          }
 
           // Redirect based on whether the user is admin
           if (data.isAdmin) {
-            localStorage.setItem('isAdmin', data.isAdmin);
             window.location.href = 'admin-dashboard.html';
           } else {
             window.location.href = 'home.html';
@@ -37,7 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
         }
       })
       .catch(error => {
-        console.log(data);
+        //console.log(data);
         console.error('Error:', error);
       });
   });

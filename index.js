@@ -355,7 +355,7 @@ async function main() {
     if (messagesCount === 0) {
       await messagesCollection.insertOne({
         senderId: 'admin',
-        targetId: 'user-001', // Replace with a default user ID if needed
+        targetId: 'Jane', // Replace with a default user ID if needed
         message: 'Hello, how may I help you?',
         timestamp: new Date(),
       });
@@ -384,15 +384,21 @@ async function main() {
           httpOnly: true,
           secure: true,
         });
-        return res
-          .status(200)
-          .json({ message: 'Login successful', isAdmin: true });
+        return res.status(200).json({
+          message: 'Login successful',
+          isAdmin: true,
+          userId: 'admin',
+        });
       }
 
       const user = await usersCollection.findOne({ username });
       if (user && user.password === password) {
         res.cookie('authToken', 'user-token', { httpOnly: true, secure: true });
-        res.status(200).json({ message: 'Login successful', isAdmin: false });
+        res.status(200).json({
+          message: 'Login successful',
+          isAdmin: false,
+          userId: user.id, // include the user's ID in the response
+        });
       } else {
         res.status(401).json({ message: 'Login failed' });
       }
@@ -661,6 +667,20 @@ async function main() {
       }
     });
 
+    apiRouter.get('/users', async (req, res) => {
+      try {
+        await client.connect(); // Ensure the database connection is established
+        const db = client.db('BalletInfo'); // Replace 'BalletInfo' with your actual database name if different
+        const usersCollection = db.collection('users');
+
+        const users = await usersCollection.find({}, { password: 0 }).toArray(); // The { password: 0 } projection excludes passwords from the response
+        res.status(200).json(users); // Send the users as a JSON response
+      } catch (error) {
+        console.error('Error fetching users:', error);
+        res.status(500).json({ message: 'Error fetching users' }); // Send an error response if something goes wrong
+      }
+    });
+
     // Admin verification middleware
     const verifyAdmin = async (req, res, next) => {
       // Assuming you store session or token in cookies or authorization headers
@@ -696,22 +716,30 @@ async function main() {
 main().catch(console.error);
 
 chatRouter.get('/messages', async (req, res) => {
-  await client.connect();
-  console.log('Connected to MongoDB');
+  const { userId } = req.query; // Expect a 'userId' query parameter.
 
-  const db = client.db('BalletInfo');
-  const messages = db.collection('messages');
+  if (!userId) {
+    return res.status(400).json({ message: 'User ID must be provided' });
+  }
 
   try {
-    const allMessages = await messages.find({}).toArray();
-    const data = {
-      messages: allMessages,
-    };
-    console.log(allMessages);
-    res.json(data);
+    await client.connect();
+    const db = client.db('BalletInfo');
+    const messages = db.collection('messages');
+
+    // Find messages where the userId is either the sender or the target.
+    const userMessages = await messages
+      .find({
+        $or: [{ senderId: userId }, { targetId: userId }],
+      })
+      .toArray();
+
+    res.json({ messages: userMessages });
   } catch (error) {
     console.error('Failed to fetch messages:', error);
     res.status(500).json({ message: 'Failed to fetch messages' });
+  } finally {
+    await client.close();
   }
 });
 
@@ -721,7 +749,8 @@ chatRouter.post('/messages', async (req, res) => {
   console.log('Received message:', req.body); // Log the message to see if it's received correctly.
 
   try {
-    const db = await connectDB();
+    await client.connect();
+    const db = client.db('BalletInfo');
     const messages = db.collection('messages');
 
     await messages.insertOne({
@@ -736,6 +765,8 @@ chatRouter.post('/messages', async (req, res) => {
   } catch (error) {
     console.error('Failed to save message:', error); // Properly log the error.
     res.status(500).json({ message: 'Failed to save message' });
+  } finally {
+    await client.close(); // Make sure to close the client connection after the operation
   }
 });
 

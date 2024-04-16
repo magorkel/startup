@@ -22,6 +22,36 @@ document.addEventListener('DOMContentLoaded', () => {
       // Handle errors, possibly redirect to login page
     });
 
+  function loadChatHistory(userId) {
+    // Save the selected user ID to local storage
+    localStorage.setItem('currentChatUserId', userId);
+
+    // Now, redirect to the chat page or refresh it
+    // If you are already on the chat page and just need to refresh the chat:
+    if (window.location.pathname === '/chat.html') {
+      window.dispatchEvent(new Event('loadChatHistory'));
+    } else {
+      // If you are not on the chat page, redirect to it
+      window.location.href = 'chat.html';
+    }
+  }
+
+  function fetchUsers() {
+    fetch('/api/users') // Adjust this to your API for fetching users
+      .then(response => response.json())
+      .then(users => {
+        const usersDropdown = document.getElementById('usersDropdown'); // Assuming you have a <select> element with this ID
+        usersDropdown.innerHTML = '';
+        users.forEach(user => {
+          const option = document.createElement('option');
+          option.value = user.id;
+          option.textContent = `${user.parentName} (${user.username})`;
+          usersDropdown.appendChild(option);
+        });
+      })
+      .catch(error => console.error('Error fetching users:', error));
+  }
+
   function fetchUpdatedClasses() {
     fetch('/api/classes')
       .then(response => response.json())
@@ -72,5 +102,22 @@ document.addEventListener('DOMContentLoaded', () => {
     .catch(error => {
       console.error('Error loading user information:', error);
       // Consider redirecting to login page or showing an error message
+    });
+
+  fetchUsers();
+
+  document
+    .getElementById('usersDropdown')
+    .addEventListener('change', function () {
+      const newUserId = this.value;
+      localStorage.setItem('currentChatUserId', newUserId); // Save to local storage
+
+      console.log(newUserId);
+
+      // Dispatch a custom event with the new user's ID
+      const event = new CustomEvent('loadChatHistory', {
+        detail: { userId: newUserId },
+      });
+      window.dispatchEvent(event);
     });
 });

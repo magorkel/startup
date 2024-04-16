@@ -1,111 +1,111 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Selecting elements from the DOM
   const sendButton = document.querySelector('.send-button');
   const inputMessage = document.querySelector('.input-message');
   const chatContainer = document.querySelector('.chat-container');
+
+  // Retrieving user information from local storage
   const username = localStorage.getItem('currentUsername');
   const isAdmin = username === 'admin';
+  const userId = localStorage.getItem('currentUserId'); // The logged-in user's ID
+  const currentChatUserId = localStorage.getItem('currentChatUserId'); // The ID of the user the admin is currently chatting with
 
-  // WebSocket connection
-  const protocol = isAdmin ? 'admin-special-token' : 'user-token'; // Token based on user role
+  console.log('currentChatUserId ' + currentChatUserId);
+
+  // Establishing WebSocket connection
+  const protocol = isAdmin ? 'admin-special-token' : 'user-token';
   const socket = new WebSocket(`ws://${location.host}`, protocol);
 
-  // Check if the username exists in local storage
-  if (!username) {
-    console.error('No username found in local storage');
-    // Optionally, redirect to login page
+  // Redirect to login page if required information is missing
+  if (!username || !userId || (isAdmin && !currentChatUserId)) {
+    console.error('Missing user information in local storage');
+    window.location.href = 'login.html';
     return;
   }
 
-  fetch(`/api/user?username=${encodeURIComponent(username)}`)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Failed to fetch user information');
-      }
-      return response.json();
+  // Function to load chat messages for a given user
+  const loadChat = userIdToLoad => {
+    fetch(`/api/chat/messages?userId=${encodeURIComponent(userIdToLoad)}`, {
+      credentials: 'include', // If needed for cookies
+      headers: {
+        // Include additional headers if needed
+      },
     })
-    .then(userInfo => {
-      document.querySelector('.user-name').textContent =
-        userInfo.parentName || 'No name provided';
-    })
-    .catch(error => {
-      console.error('Error loading user information:', error);
-      // Consider redirecting to login page or showing an error message
-    });
-
-  fetch('/api/chat/messages')
-    .then(async response => {
-      console.log('inside fetch');
-      console.log(response);
-      return await response.json();
-    })
-    .then(data => {
-      console.log(data);
-      data.messages.forEach(msg => {
-        const chatBubble = document.createElement('div');
-        chatBubble.classList.add(
-          'message',
-          msg.senderId === username ? 'user' : 'other'
-        );
-        chatBubble.textContent = msg.message;
-        chatContainer.appendChild(chatBubble);
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        } else {
+          return response.json();
+        }
+      })
+      .then(data => {
+        chatContainer.innerHTML = ''; // Clear current messages
+        data.messages.forEach(msg => {
+          const chatBubble = document.createElement('div');
+          chatBubble.classList.add(
+            'message',
+            msg.senderId === userId ? 'user' : 'admin'
+          );
+          chatBubble.textContent = msg.message;
+          chatContainer.appendChild(chatBubble);
+        });
+        chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the latest message
+      })
+      .catch(error => {
+        console.error('Error loading chat history:', error);
       });
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    })
-    .catch(error => console.error('Error loading chat history:', error));
+  };
 
-  socket.addEventListener('open', function (event) {
-    console.log('Connected to WebSocket server');
-  });
+  // Initial chat load
+  const chatUserIdToLoad =
+    isAdmin && currentChatUserId ? currentChatUserId : userId;
+  console.log('chatUserIdToLoad ' + chatUserIdToLoad);
+  loadChat(chatUserIdToLoad);
 
-  socket.addEventListener('message', function (event) {
-    try {
-      const data = JSON.parse(event.data);
-      const chatBubble = document.createElement('div');
-      chatBubble.classList.add(
-        'message',
-        data.from === username ? 'user' : 'other'
-      );
-      chatBubble.textContent = data.message;
-
-      chatContainer.appendChild(chatBubble);
-      chatContainer.scrollTop = chatContainer.scrollHeight;
-    } catch (e) {
-      console.error('Error parsing WebSocket message:', e);
-      // Handle non-JSON messages or show a fallback message
-    }
-  });
-
-  socket.addEventListener('close', function (event) {
-    console.log('Disconnected from WebSocket server');
-  });
-
-  socket.addEventListener('error', function (event) {
-    console.error('WebSocket error:', event);
-  });
-
+  // Listener for the send button
   sendButton.addEventListener('click', () => {
     const messageText = inputMessage.value.trim();
-
-    // Check if the message is not empty
     if (messageText) {
-      socket.send(JSON.stringify({ message: messageText }));
-      const chatBubble = document.createElement('div');
-      chatBubble.classList.add('message', 'user');
-      chatBubble.textContent = messageText;
+      const targetId = isAdmin ? currentChatUserId : 'admin';
+      const message = {
+        senderId: userId,
+        targetId: targetId,
+        message: messageText,
+      };
 
-      // Append to chat container and clear input
-      chatContainer.appendChild(chatBubble);
-      inputMessage.value = '';
-
-      // Scroll to the bottom of the chat container
-      chatContainer.scrollTop = chatContainer.scrollHeight;
+      // Sending the message to the server
+      fetch('/api/chat/messages', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        credentials: 'include',
+        body: JSON.stringify(message),
+      })
+        .then(response => response.json())
+        .then(data => {
+          console.log('Message sent', data.message);
+          const chatBubble = document.createElement('div');
+          chatBubble.classList.add('message', isAdmin ? 'admin' : 'user');
+          chatBubble.textContent = messageText;
+          chatContainer.appendChild(chatBubble);
+          inputMessage.value = '';
+          chatContainer.scrollTop = chatContainer.scrollHeight;
+        })
+        .catch(error => {
+          console.error('Error sending message:', error);
+        });
     }
   });
 
-  // Optionally, send message with Enter key
+  // Listener for the enter key in the input field
   inputMessage.addEventListener('keypress', e => {
     if (e.key === 'Enter') {
       sendButton.click();
     }
+  });
+
+  // Event listener for custom event to load chat history
+  window.addEventListener('loadChatHistory', event => {
+    const userIdToLoad = event.detail.userId;
+    loadChat(chatUserIdToLoad);
   });
 });
