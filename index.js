@@ -355,7 +355,8 @@ async function main() {
     if (messagesCount === 0) {
       await messagesCollection.insertOne({
         senderId: 'admin',
-        targetId: 'Jane', // Replace with a default user ID if needed
+        senderName: 'Harley',
+        //targetId: 'Jane', // Replace with a default user ID if needed
         message: 'Hello, how may I help you?',
         timestamp: new Date(),
       });
@@ -505,10 +506,6 @@ async function main() {
       } catch (error) {
         console.error(error);
         res.status(500).json({ message: 'Server error' });
-      } finally {
-        // Consider using a persistent connection instead of connecting on each request
-        // If not, close the connection
-        //await client.close();
       }
     });
 
@@ -715,58 +712,49 @@ async function main() {
 
 main().catch(console.error);
 
-chatRouter.get('/messages', async (req, res) => {
-  const { userId } = req.query; // Expect a 'userId' query parameter.
-
-  if (!userId) {
-    return res.status(400).json({ message: 'User ID must be provided' });
-  }
-
-  try {
-    await client.connect();
-    const db = client.db('BalletInfo');
-    const messages = db.collection('messages');
-
-    // Find messages where the userId is either the sender or the target.
-    const userMessages = await messages
-      .find({
-        $or: [{ senderId: userId }, { targetId: userId }],
-      })
-      .toArray();
-
-    res.json({ messages: userMessages });
-  } catch (error) {
-    console.error('Failed to fetch messages:', error);
-    res.status(500).json({ message: 'Failed to fetch messages' });
-  } finally {
-    await client.close();
-  }
-});
-
+// Modify the POST route for saving messages
 chatRouter.post('/messages', async (req, res) => {
-  const { message, senderId, targetId } = req.body;
-
-  console.log('Received message:', req.body); // Log the message to see if it's received correctly.
+  const { message, senderId } = req.body; // Removed targetId since all messages are now general
 
   try {
     await client.connect();
     const db = client.db('BalletInfo');
+    const users = db.collection('users');
     const messages = db.collection('messages');
+
+    // Fetch the sender's username to store along with the message
+    const sender = await users.findOne({ id: senderId });
+    const senderName = sender ? sender.parentName : 'Unknown';
 
     await messages.insertOne({
       senderId,
-      targetId,
+      senderName, // Store this additional field
       message,
       timestamp: new Date(),
     });
 
-    console.log('Message saved to the database.'); // Log for successful save.
+    console.log('Message saved to the database.');
     res.status(201).json({ message: 'Message saved' });
   } catch (error) {
-    console.error('Failed to save message:', error); // Properly log the error.
+    console.error('Failed to save message:', error);
     res.status(500).json({ message: 'Failed to save message' });
-  } finally {
-    await client.close(); // Make sure to close the client connection after the operation
+  }
+});
+
+// Modify the GET route for retrieving messages
+chatRouter.get('/messages', async (req, res) => {
+  try {
+    await client.connect();
+    const db = client.db('BalletInfo');
+    const messages = db.collection('messages');
+
+    // Retrieve all messages
+    const allMessages = await messages.find({}).toArray();
+
+    res.json({ messages: allMessages });
+  } catch (error) {
+    console.error('Failed to fetch messages:', error);
+    res.status(500).json({ message: 'Failed to fetch messages' });
   }
 });
 

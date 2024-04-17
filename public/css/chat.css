@@ -17,7 +17,7 @@
     word-wrap: break-word;
   }
   
-  .admin {
+  .other {
     align-self: flex-start;
     background-color: #c2c2c2; /* Gray color for your messages */
   }

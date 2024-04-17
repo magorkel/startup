@@ -1,94 +1,93 @@
 document.addEventListener('DOMContentLoaded', () => {
-  // Selecting elements from the DOM
   const sendButton = document.querySelector('.send-button');
   const inputMessage = document.querySelector('.input-message');
   const chatContainer = document.querySelector('.chat-container');
+  const userNameDisplay = document.querySelector(
+    '.profile-photo-container .user-name'
+  );
 
-  // Retrieving user information from local storage
+  // Retrieve username from local storage or session management
   const username = localStorage.getItem('currentUsername');
-  const isAdmin = username === 'admin';
   const userId = localStorage.getItem('currentUserId'); // The logged-in user's ID
-  const currentChatUserId = localStorage.getItem('currentChatUserId'); // The ID of the user the admin is currently chatting with
 
-  console.log('currentChatUserId ' + currentChatUserId);
-
-  // Establishing WebSocket connection
-  const protocol = isAdmin ? 'admin-special-token' : 'user-token';
-  const socket = new WebSocket(`ws://${location.host}`, protocol);
-
-  // Redirect to login page if required information is missing
-  if (!username || !userId || (isAdmin && !currentChatUserId)) {
-    console.error('Missing user information in local storage');
+  // Update user name in the header
+  if (username) {
+    userNameDisplay.textContent = username;
+  } else {
+    console.error('User information is missing. Redirecting to login.');
     window.location.href = 'login.html';
     return;
   }
 
-  // Function to load chat messages for a given user
-  const loadChat = userIdToLoad => {
-    fetch(`/api/chat/messages?userId=${encodeURIComponent(userIdToLoad)}`, {
-      credentials: 'include', // If needed for cookies
-      headers: {
-        // Include additional headers if needed
-      },
+  fetch(`/api/user?username=${encodeURIComponent(username)}`)
+    .then(response => response.json())
+    .then(userInfo => {
+      if (userInfo) {
+        userNameDisplay.textContent = userInfo.parentName || 'Anonymous'; // Update to use parentName or other appropriate user identifier
+      }
     })
-      .then(response => {
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
-        } else {
-          return response.json();
-        }
-      })
+    .catch(error => {
+      console.error('Error loading user information:', error);
+    });
+
+  // Load existing messages or listen for new ones
+  const loadChat = () => {
+    fetch('/api/chat/messages', {
+      credentials: 'include', // If using cookies for session management
+    })
+      .then(response => response.json())
       .then(data => {
         chatContainer.innerHTML = ''; // Clear current messages
         data.messages.forEach(msg => {
+          // Determine message bubble class based on sender
+          const bubbleClass = msg.senderId === userId ? 'user' : 'other';
+
+          // Create message bubble
           const chatBubble = document.createElement('div');
-          chatBubble.classList.add(
-            'message',
-            msg.senderId === userId ? 'user' : 'admin'
-          );
+          chatBubble.className = `message ${bubbleClass}`;
+
+          // Create sender name label if message is from another user
+          if (bubbleClass === 'other') {
+            const senderNameLabel = document.createElement('div');
+            senderNameLabel.className = 'sender-name';
+            senderNameLabel.textContent = msg.senderName || 'Unknown';
+            chatContainer.appendChild(senderNameLabel);
+          }
+
           chatBubble.textContent = msg.message;
           chatContainer.appendChild(chatBubble);
         });
         chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the latest message
       })
       .catch(error => {
-        console.error('Error loading chat history:', error);
+        console.error('Error loading chat messages:', error);
       });
   };
 
-  // Initial chat load
-  const chatUserIdToLoad =
-    isAdmin && currentChatUserId ? currentChatUserId : userId;
-  console.log('chatUserIdToLoad ' + chatUserIdToLoad);
-  loadChat(chatUserIdToLoad);
+  loadChat();
 
-  // Listener for the send button
+  // Handle sending new messages
   sendButton.addEventListener('click', () => {
     const messageText = inputMessage.value.trim();
     if (messageText) {
-      const targetId = isAdmin ? currentChatUserId : 'admin';
       const message = {
         senderId: userId,
-        targetId: targetId,
         message: messageText,
       };
 
-      // Sending the message to the server
       fetch('/api/chat/messages', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+        },
         credentials: 'include',
         body: JSON.stringify(message),
       })
         .then(response => response.json())
         .then(data => {
           console.log('Message sent', data.message);
-          const chatBubble = document.createElement('div');
-          chatBubble.classList.add('message', isAdmin ? 'admin' : 'user');
-          chatBubble.textContent = messageText;
-          chatContainer.appendChild(chatBubble);
-          inputMessage.value = '';
-          chatContainer.scrollTop = chatContainer.scrollHeight;
+          inputMessage.value = ''; // Clear input after sending
+          loadChat(); // Reload chat to show new message
         })
         .catch(error => {
           console.error('Error sending message:', error);
@@ -96,16 +95,11 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // Listener for the enter key in the input field
+  // Support for pressing Enter to send a message
   inputMessage.addEventListener('keypress', e => {
-    if (e.key === 'Enter') {
+    if (e.key === 'Enter' && !e.shiftKey) {
       sendButton.click();
+      e.preventDefault(); // Prevent the default action to avoid form submission
     }
-  });
-
-  // Event listener for custom event to load chat history
-  window.addEventListener('loadChatHistory', event => {
-    const userIdToLoad = event.detail.userId;
-    loadChat(chatUserIdToLoad);
   });
 });

@@ -4,8 +4,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
   if (!username) {
     console.error('No username found in local storage');
+    window.location.href = 'login.html'; // Redirect to login if no username is found
     return;
   }
+
+  // Check if the user is an admin and redirect non-admin users to the home page
   fetch('/api/check-admin', {
     credentials: 'include',
   })
@@ -14,53 +17,22 @@ document.addEventListener('DOMContentLoaded', () => {
       if (!data.isAdmin) {
         window.location.href = 'home.html'; // Redirect non-admin users to home
       } else {
-        fetchUpdatedClasses();
+        fetchUpdatedClasses(); // Fetch updated class data only if the user is admin
       }
     })
     .catch(error => {
-      console.error('Error:', error);
-      // Handle errors, possibly redirect to login page
+      console.error('Error checking admin status:', error);
     });
-
-  function loadChatHistory(userId) {
-    // Save the selected user ID to local storage
-    localStorage.setItem('currentChatUserId', userId);
-
-    // Now, redirect to the chat page or refresh it
-    // If you are already on the chat page and just need to refresh the chat:
-    if (window.location.pathname === '/chat.html') {
-      window.dispatchEvent(new Event('loadChatHistory'));
-    } else {
-      // If you are not on the chat page, redirect to it
-      window.location.href = 'chat.html';
-    }
-  }
-
-  function fetchUsers() {
-    fetch('/api/users') // Adjust this to your API for fetching users
-      .then(response => response.json())
-      .then(users => {
-        const usersDropdown = document.getElementById('usersDropdown'); // Assuming you have a <select> element with this ID
-        usersDropdown.innerHTML = '';
-        users.forEach(user => {
-          const option = document.createElement('option');
-          option.value = user.id;
-          option.textContent = `${user.parentName} (${user.username})`;
-          usersDropdown.appendChild(option);
-        });
-      })
-      .catch(error => console.error('Error fetching users:', error));
-  }
 
   function fetchUpdatedClasses() {
     fetch('/api/classes')
       .then(response => response.json())
       .then(data => {
-        classesContainer.innerHTML = ''; // Clear previous data
+        classesContainer.innerHTML = ''; // Clear previous class data
         data.forEach(cl => {
           const section = document.createElement('section');
           const classTitle = document.createElement('h3');
-          classTitle.textContent = `${cl.name}`;
+          classTitle.textContent = cl.name;
 
           const classTimes = document.createElement('p');
           classTimes.textContent = `Times: ${cl.times}`;
@@ -72,8 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
             studentLink.href = `student-info.html?childName=${encodeURIComponent(
               student.childName
             )}`;
-            studentLink.textContent = student.childName; // Change 'studentName' to 'childName'
-            studentLink.className = 'student-link'; // Optional: for styling purposes
+            studentLink.textContent = student.childName;
+            studentLink.className = 'student-link';
 
             studentItem.appendChild(studentLink);
             studentList.appendChild(studentItem);
@@ -88,6 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
       .catch(error => console.error('Failed to load classes:', error));
   }
 
+  // Fetch user info to display their name
   fetch(`/api/user?username=${encodeURIComponent(username)}`)
     .then(response => {
       if (!response.ok) {
@@ -97,27 +70,10 @@ document.addEventListener('DOMContentLoaded', () => {
     })
     .then(userInfo => {
       document.querySelector('.user-name').textContent =
-        userInfo.parentName || 'No name provided';
+        userInfo.parentName || 'No name provided'; // Set the user's name in the header
     })
     .catch(error => {
       console.error('Error loading user information:', error);
-      // Consider redirecting to login page or showing an error message
-    });
-
-  fetchUsers();
-
-  document
-    .getElementById('usersDropdown')
-    .addEventListener('change', function () {
-      const newUserId = this.value;
-      localStorage.setItem('currentChatUserId', newUserId); // Save to local storage
-
-      console.log(newUserId);
-
-      // Dispatch a custom event with the new user's ID
-      const event = new CustomEvent('loadChatHistory', {
-        detail: { userId: newUserId },
-      });
-      window.dispatchEvent(event);
+      window.location.href = 'login.html'; // Redirect to login page on error
     });
 });
