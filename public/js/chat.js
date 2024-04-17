@@ -66,16 +66,71 @@ document.addEventListener('DOMContentLoaded', () => {
 
   loadChat();
 
+  let socket;
+
+  function setupWebSocket() {
+    // Determine the correct WebSocket protocol based on the current location protocol
+    const protocol = window.location.protocol === 'https:' ? 'wss:' : 'ws:';
+    //const protocol = window.location.protocol === 'wss';
+
+    // Set up the WebSocket connection URL based on the current host
+    const wsUrl = `${protocol}//${window.location.host}`;
+
+    // Establish the WebSocket connection
+    socket = new WebSocket(wsUrl);
+
+    // Handle incoming WebSocket messages
+    socket.onmessage = async function (event) {
+      const msg = JSON.parse(await event.data.text());
+      if (msg.type === 'new_message') {
+        displayMessage(msg);
+      }
+    };
+
+    // Reconnect automatically upon disconnection
+    socket.onclose = function () {
+      console.log('WebSocket connection closed. Attempting to reconnect...');
+      setTimeout(setupWebSocket, 3000);
+    };
+  }
+
+  function displayMessage(messageData) {
+    const chatBubble = document.createElement('div');
+    chatBubble.className = `message ${
+      messageData.senderId === userId ? 'user' : 'other'
+    }`;
+
+    if (messageData.senderId !== userId) {
+      const senderNameLabel = document.createElement('div');
+      senderNameLabel.className = 'sender-name';
+      senderNameLabel.textContent = messageData.senderName || 'Unknown';
+      chatContainer.appendChild(senderNameLabel);
+    }
+
+    const messageText = document.createElement('div');
+    messageText.textContent = messageData.message;
+    chatBubble.appendChild(messageText);
+
+    chatContainer.appendChild(chatBubble);
+    chatContainer.scrollTop = chatContainer.scrollHeight; // Scroll to the latest message
+  }
+
+  setupWebSocket();
+
+  const name = localStorage.getItem('parentName');
+
   // Handle sending new messages
   sendButton.addEventListener('click', () => {
     const messageText = inputMessage.value.trim();
     if (messageText) {
       const message = {
         senderId: userId,
+        senderName: name,
         message: messageText,
+        type: 'new_message',
       };
 
-      fetch('/api/chat/messages', {
+      /*fetch('/api/chat/messages', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -91,7 +146,13 @@ document.addEventListener('DOMContentLoaded', () => {
         })
         .catch(error => {
           console.error('Error sending message:', error);
-        });
+        });*/
+
+      // Send the message over the WebSocket
+      socket.send(JSON.stringify(message));
+
+      inputMessage.value = ''; // Clear input after sending
+      displayMessage(message); // Display the message right away
     }
   });
 

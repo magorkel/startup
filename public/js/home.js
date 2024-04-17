@@ -23,6 +23,7 @@ document.addEventListener('DOMContentLoaded', () => {
       })
       .then(userInfo => {
         // Update child's name
+        localStorage.setItem('parentName', userInfo.parentName);
         const childNameElement = document.getElementById('childName');
         if (childNameElement) {
           childNameElement.textContent = userInfo.childName || 'Not provided';

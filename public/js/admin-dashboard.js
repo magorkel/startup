@@ -1,6 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
   const classesContainer = document.querySelector('#classesContainer');
   const username = localStorage.getItem('currentUsername');
+  localStorage.setItem('parentName', 'Harley');
 
   if (!username) {
     console.error('No username found in local storage');

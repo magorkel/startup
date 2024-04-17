@@ -15,6 +15,8 @@ const allowedOrigins = [
   'https://startup.ballet260.click',
 ];
 
+//const wss = peerProxy(server);
+
 const corsOptions = {
   origin: function (origin, callback) {
     if (!origin || allowedOrigins.indexOf(origin) !== -1) {
@@ -712,6 +714,23 @@ async function main() {
 
 main().catch(console.error);
 
+function broadcast(data) {
+  wss.clients.forEach(client => {
+    if (client.readyState === WebSocket.OPEN) {
+      client.send(JSON.stringify(data));
+    }
+  });
+}
+
+/*wss.on('connection', ws => {
+  ws.on('message', function incoming(data) {
+    const message = JSON.parse(data);
+    // Here you'd typically save the message to the database then broadcast
+    broadcast(message);
+  });
+  // ... other ws event listeners ...
+});*/
+
 // Modify the POST route for saving messages
 chatRouter.post('/messages', async (req, res) => {
   const { message, senderId } = req.body; // Removed targetId since all messages are now general
@@ -758,12 +777,13 @@ chatRouter.get('/messages', async (req, res) => {
   }
 });
 
-peerProxy(server);
+//const wss = peerProxy(server);
 
-server.listen(PORT, () => {
+const httpService = server.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
 });
 
+peerProxy(httpService);
 // Start the server
 /*app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
