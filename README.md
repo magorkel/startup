@@ -185,3 +185,12 @@ I own and run my own ballet studio. I teach ages 3 to 14 currently. I love it so
   - login will take you right to the admin page
   - access to home is restricted and will just send you back to the admin page
   - if you registered a new user, you will be able to see the childs name pop up under their respective class and will be able to click on it to see their user information.
+
+## Startup WebSocket
+
+- Finally finished!! The WebSocket is used in the chat page. If you log in as a user, say Jane - username: Jane, password: 123 - on one computer and then as the admin Harley - username: Harley, password: 45738 - on another computer or your phone, you can talk back and forth with each other and the messages will showup automatically on the others screen.
+
+- Backend listens for WebSocket connection - There are connections to the peerProxy in the server side index.js
+- Frontend makes WebSocket connection - this is in the chat.js in the displayMessage function
+- Data sent over WebSocket connection - The sendButton in the chat.js is what sends the info
+- WebSocket data displayed - all messages can be seen from anyones chat page
